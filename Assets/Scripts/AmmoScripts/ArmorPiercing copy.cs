@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ArmorPiercingBullet2 : MonoBehaviour
 {
-    public float damage = 20f;
+    public float damage = 15f;
     private ParticleSystem tracer;
     private Renderer bulletRenderer;
     public GameObject explosionParticlesPrefab;
