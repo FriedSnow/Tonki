@@ -4,6 +4,8 @@ public class BMPCannon : MonoBehaviour
 {
     public GameObject cannonProjectilePrefab;
     public Transform cannonLaunchPoint;
+    public Rigidbody tankRigidbody;
+    public float recoilForce = 10f; // Сила отдачи
     public float cannonFireRate = 0.5f; // Скорострельность пушки
     public float cannonProjectileSpeed = 20f;
 
@@ -26,5 +28,10 @@ public class BMPCannon : MonoBehaviour
         {
             rb.velocity = cannonLaunchPoint.forward * cannonProjectileSpeed;
         }
+        if (tankRigidbody != null)
+        {
+            tankRigidbody.AddForce(-cannonLaunchPoint.forward * recoilForce * 10f, ForceMode.Impulse);
+        }
     }
+    
 }
