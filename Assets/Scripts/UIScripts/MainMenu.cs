@@ -6,15 +6,19 @@ public class MainMenu : MonoBehaviour
     // Метод для загрузки основной сцены
     public void StartTankGame()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("TankScene");
     }
     public void StartAAGame()
     {
-        SceneManager.LoadScene("MainScene1"); 
+        SceneManager.LoadScene("SPAAScene"); 
     }
     public void StartMSLGame()
     {
-        SceneManager.LoadScene("MainScene1 1"); 
+        SceneManager.LoadScene("MSLScene"); 
+    }
+    public void StartBMPGame()
+    {
+        SceneManager.LoadScene("BMPScene"); 
     }
 
     // Метод для выхода из игры
