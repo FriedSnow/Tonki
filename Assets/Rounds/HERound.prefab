@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7652951446437344459}
   - component: {fileID: 3799876112617127072}
   - component: {fileID: 6200849974638186779}
+  - component: {fileID: 321965421604292682}
   m_Layer: 0
   m_Name: HERound
   m_TagString: Untagged
@@ -161,7 +162,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3098992300101863374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa55b8456a4c1754290e9fa808bf7848, type: 3}
   m_Name: 
@@ -279,6 +280,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &321965421604292682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3098992300101863374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b496769b6542c04685cb337286bc53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
 --- !u!1 &6396677970789992372
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,4 +15,5 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu"); // Замените "MainMenu" на название вашей сцены с главным меню
     }
+
 }

@@ -20,6 +20,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("BMPScene"); 
     }
+    public void StartPVPGame()
+    {
+        SceneManager.LoadScene("PVPScene"); 
+    }
 
     // Метод для выхода из игры
     public void ExitGame()
