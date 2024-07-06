@@ -440,8 +440,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6438037687029573197}
   - component: {fileID: 6783000954341753129}
-  - component: {fileID: 2635500968316434139}
   - component: {fileID: 3690026038302159202}
+  - component: {fileID: 2635500968316434139}
   m_Layer: 10
   m_Name: Tank(enemy)
   m_TagString: Enemy
@@ -497,6 +497,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &3690026038302159202
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5205519241090130013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.501748, y: 1.7017518, z: 5.182439}
+  m_Center: {x: 0.0070174336, y: 0.3508759, z: 0.12631512}
 --- !u!114 &2635500968316434139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,27 +545,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 2048
---- !u!65 &3690026038302159202
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5205519241090130013}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.501748, y: 1.7017518, z: 5.182439}
-  m_Center: {x: 0.0070174336, y: 0.3508759, z: 0.12631512}
+  restartingText: {fileID: 0}
 --- !u!1 &6158071040726994788
 GameObject:
   m_ObjectHideFlags: 0
