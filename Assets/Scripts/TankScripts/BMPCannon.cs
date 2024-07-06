@@ -8,7 +8,6 @@ public class BMPCannon : MonoBehaviour
     public float recoilForce = 10f; // Сила отдачи
     public float cannonFireRate = 0.5f; // Скорострельность пушки
     public float cannonProjectileSpeed = 20f;
-
     private float nextCannonFireTime = 0f;
 
     void Update()
