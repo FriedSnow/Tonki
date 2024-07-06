@@ -50,12 +50,16 @@ public class Projectile : MonoBehaviour
                 enemyTank.TakeDamage(damage);
             }
         }
-
-        Destroy(gameObject);
     }
     private void OnTriggerEnter(Collider other){
 
-        Physics.IgnoreCollision(other, GetComponent<Collider>());
+        //Physics.IgnoreCollision(other, GetComponent<Collider>());
+        GetComponent<Renderer>().enabled = false;
+        Renderer[] childRenderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer childRenderer in childRenderers)
+        {
+            childRenderer.enabled = false;
+        }
 
     }
 }

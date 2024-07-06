@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 
 public class EnemyTankController : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class EnemyTankController : MonoBehaviour
     private bool isDestroyed = false;
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
+    private float firingAngleThreshold = 10f; // Допустимый угол отклонения прицела
+    public LayerMask obstacleMask; // Маска для препятствий
+    public Text restartingText; // Ссылка на текстовый объект UI
 
     void Start()
     {
@@ -33,7 +37,6 @@ public class EnemyTankController : MonoBehaviour
             MoveTank();
             RotateTurretTowardsPlayer();
         }
-
     }
 
     void MoveTank()
@@ -57,8 +60,13 @@ public class EnemyTankController : MonoBehaviour
         }
 
         Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        
+        // Проверка на нулевой вектор
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        }
 
         if (distanceToPlayer > desiredDistance || distanceToPlayer < desiredDistance - 5f)
         {
@@ -69,8 +77,11 @@ public class EnemyTankController : MonoBehaviour
     void RotateTurretTowardsPlayer()
     {
         Vector3 direction = (player.position - turret.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        turret.rotation = Quaternion.Slerp(turret.rotation, lookRotation, Time.deltaTime * turretRotateSpeed);
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            turret.rotation = Quaternion.Slerp(turret.rotation, lookRotation, Time.deltaTime * turretRotateSpeed);
+        }
     }
 
     IEnumerator FireRoutine()
@@ -78,15 +89,51 @@ public class EnemyTankController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(fireInterval);
-            if (!playerTankController.IsDestroyed())
+            if (!playerTankController.IsDestroyed() && IsPlayerInSight())
             {
                 FireProjectile();
             }
         }
     }
 
+    bool IsPlayerInSight()
+    {
+        Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
+        float angle = Vector3.Angle(firePoint.forward, directionToPlayer);
+
+        if (angle < firingAngleThreshold)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(firePoint.position, directionToPlayer, out hit, Mathf.Infinity, obstacleMask))
+            {
+                // Проверяем, является ли обнаруженный объект игроком
+                if (hit.transform == player)
+                {
+                    Debug.Log("Player in sight and no obstacles.");
+                    return true;
+                }
+                else
+                {
+                    Debug.Log("Obstacle detected: " + hit.transform.name);
+                }
+            }
+            else
+            {
+                Debug.Log("No obstacles detected.");
+                return true;
+            }
+        }
+        else
+        {
+            Debug.Log("Player out of angle range: " + angle);
+        }
+
+        return false;
+    }
+
     void FireProjectile()
     {
+        Debug.Log("Firing projectile.");
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
@@ -111,10 +158,18 @@ public class EnemyTankController : MonoBehaviour
         Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
         turretRb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Отбрасываем башню вверх
         StopAllCoroutines();
-        Invoke(nameof(RemoveTankModel), 5f); // Удаление модели через 5 секунд
-        Invoke(nameof(RestartScene), 5f); // Перезапуск сцены через 5 секунд (уменьшено время)
+        ShowRestartingMessage();
+        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 5 секунд
+        Invoke(nameof(RestartScene), 3f); // Перезапуск сцены через 5 секунд (уменьшено время)
     }
 
+    void ShowRestartingMessage()
+    {
+        if (restartingText != null)
+        {
+            restartingText.text = "Restart...";
+        }
+    }
     void RemoveTankModel()
     {
         Destroy(tank); // Удаляем модель танка

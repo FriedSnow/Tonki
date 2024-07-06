@@ -515,12 +515,15 @@ MonoBehaviour:
   firePoint: {fileID: 4491870962625262055}
   player: {fileID: 0}
   moveSpeed: 10
-  rotateSpeed: 2
-  turretRotateSpeed: 10
+  rotateSpeed: 1
+  turretRotateSpeed: 5
   fireInterval: 1
   projectileSpeed: 200
-  desiredDistance: 20
+  desiredDistance: 25
   health: 100
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!65 &3690026038302159202
 BoxCollider:
   m_ObjectHideFlags: 0

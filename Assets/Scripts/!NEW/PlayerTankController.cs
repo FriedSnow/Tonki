@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerTankController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PlayerTankController : MonoBehaviour
     private int currentProjectileIndex = 0;
     private bool isDestroyed = false;
     private float nextFireTime = 0f;
-
+    public Text restartingText; // Ссылка на текстовый объект UI
     void Update()
     {
         if (!isDestroyed)
@@ -99,9 +100,16 @@ public class PlayerTankController : MonoBehaviour
         Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
         turretRb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Отбрасываем башню вверх
         // Дополнительная логика уничтожения танка
-
-        Invoke(nameof(RestartScene), 5f); // Перезапуск сцены через 5 секунд (уменьшено время)
-        Invoke(nameof(RemoveTankModel), 5f); // Удаление модели через 5 секунд
+        ShowRestartingMessage();
+        Invoke(nameof(RestartScene), 3f); // Перезапуск сцены через 5 секунд (уменьшено время)
+        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 5 секунд
+    }
+    void ShowRestartingMessage()
+    {
+        if (restartingText != null)
+        {
+            restartingText.text = "Restart...";
+        }
     }
 
     void RemoveTankModel()
