@@ -20,7 +20,7 @@ public class EnemyTankController : MonoBehaviour
     private bool isDestroyed = false;
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
-    private float firingAngleThreshold = 10f; // Допустимый угол отклонения прицела
+    private float firingAngleThreshold = 90f; // Допустимый угол отклонения прицела
     public LayerMask obstacleMask; // Маска для препятствий
     public Text restartingText; // Ссылка на текстовый объект UI
 
@@ -34,8 +34,10 @@ public class EnemyTankController : MonoBehaviour
     {
         if (playerTankController != null && !playerTankController.IsDestroyed() && !isDestroyed)
         {
-            MoveTank();
+            if (IsPlayerInSight()){
+                MoveTank();
             RotateTurretTowardsPlayer();
+            }
         }
     }
 
