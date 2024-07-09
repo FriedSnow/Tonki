@@ -10,6 +10,8 @@ public class EnemyTankController : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform firePoint;
     public Transform player;
+    public Material grayMaterial;
+    public GameObject burningParticlesPrefab;
     public float moveSpeed = 5f;
     public float rotateSpeed = 2f;
     public float turretRotateSpeed = 5f;
@@ -22,11 +24,11 @@ public class EnemyTankController : MonoBehaviour
     private PlayerTankController playerTankController;
     private float firingAngleThreshold = 90f; // Допустимый угол отклонения прицела
     public LayerMask obstacleMask; // Маска для препятствий
-    public Text restartingText; // Ссылка на текстовый объект UI
 
     void Start()
     {
         playerTankController = player.GetComponent<PlayerTankController>();
+        EnemyManager.instance.RegisterEnemy();
         StartCoroutine(FireRoutine());
     }
 
@@ -34,9 +36,10 @@ public class EnemyTankController : MonoBehaviour
     {
         if (playerTankController != null && !playerTankController.IsDestroyed() && !isDestroyed)
         {
-            if (IsPlayerInSight()){
+            if (IsPlayerInSight())
+            {
                 MoveTank();
-            RotateTurretTowardsPlayer();
+                RotateTurretTowardsPlayer();
             }
         }
     }
@@ -62,7 +65,7 @@ public class EnemyTankController : MonoBehaviour
         }
 
         Vector3 direction = (targetPosition - transform.position).normalized;
-        
+
         // Проверка на нулевой вектор
         if (direction != Vector3.zero)
         {
@@ -160,27 +163,27 @@ public class EnemyTankController : MonoBehaviour
         Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
         turretRb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Отбрасываем башню вверх
         StopAllCoroutines();
-        ShowRestartingMessage();
-        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 5 секунд
-        Invoke(nameof(RestartScene), 3f); // Перезапуск сцены через 5 секунд (уменьшено время)
-    }
-
-    void ShowRestartingMessage()
-    {
-        if (restartingText != null)
+        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 3 секунды
+        EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
         {
-            restartingText.text = "Restart...";
+            if (renderer != null)
+            {
+                renderer.material = grayMaterial;
+            }
+        }
+
+        // Создание частиц горения
+        if (burningParticlesPrefab != null)
+        {
+            Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
         }
     }
+
     void RemoveTankModel()
     {
-        Destroy(tank); // Удаляем модель танка
-        Destroy(turret); // Удаляем модель танка
-    }
-
-    void RestartScene()
-    {
-        Debug.Log("Перезапуск сцены..."); // Вывод сообщения в консоль для отладки
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезапускаем сцену
+        // Destroy(tank); // Удаляем модель танка
+        // Destroy(turret); // Удаляем модель танка
     }
 }

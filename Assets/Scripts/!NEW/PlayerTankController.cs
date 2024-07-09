@@ -90,11 +90,11 @@ public class PlayerTankController : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Die();
+            PlayerDie();
         }
     }
 
-    void Die()
+    void PlayerDie()
     {
         isDestroyed = true;
         Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
