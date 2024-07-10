@@ -19,11 +19,13 @@ public class EnemyTankController : MonoBehaviour
     public float projectileSpeed = 20f;
     public float desiredDistance = 20f; // Желаемое расстояние от игрока
     public int health = 100;
-    private bool isDestroyed = false;
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
-    private float firingAngleThreshold = 90f; // Допустимый угол отклонения прицела
     public LayerMask obstacleMask; // Маска для препятствий
+    private float firingAngleThreshold = 145f; // Допустимый угол отклонения прицела
+    private bool isDestroyed = false;
+    private bool canBeDestroyed = true;
+    
 
     void Start()
     {
@@ -91,6 +93,9 @@ public class EnemyTankController : MonoBehaviour
 
     IEnumerator FireRoutine()
     {
+        // Добавляем случайную задержку перед началом стрельбы
+        yield return new WaitForSeconds(Random.Range(0, fireInterval));
+
         while (true)
         {
             yield return new WaitForSeconds(fireInterval);
@@ -160,11 +165,18 @@ public class EnemyTankController : MonoBehaviour
     void Die()
     {
         isDestroyed = true;
+
+        if (canBeDestroyed){
+
         Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-        turretRb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Отбрасываем башню вверх
+        if (turretRb != null)
+        {
+            turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
+        }
         StopAllCoroutines();
         Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 3 секунды
         EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
+
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
@@ -173,11 +185,13 @@ public class EnemyTankController : MonoBehaviour
                 renderer.material = grayMaterial;
             }
         }
-
         // Создание частиц горения
         if (burningParticlesPrefab != null)
         {
             Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
+        }
+
+        canBeDestroyed = false;
         }
     }
 

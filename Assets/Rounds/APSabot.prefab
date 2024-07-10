@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 650458040865458166}
+  - component: {fileID: 8351743585770211715}
   - component: {fileID: 1617553280956595294}
   - component: {fileID: -5725387091031718214}
   - component: {fileID: 4526526108441597239}
@@ -36,6 +37,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8351743585770211715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7000033709177148673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8e5aece5ec9694b8d6365331602258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sabotDamage: 1
 --- !u!33 &1617553280956595294
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -129,7 +143,7 @@ Rigidbody:
   m_GameObject: {fileID: 7000033709177148673}
   serializedVersion: 4
   m_Mass: 0.01
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

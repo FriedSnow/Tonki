@@ -8,16 +8,19 @@ public class PlayerTankController : MonoBehaviour
     public Transform turret;
     public Transform firePoint;
     public GameObject[] projectilePrefabs; // Снаряды для различных типов
+    public Text restartingText; // Ссылка на текстовый объект UI
+    public Material grayMaterial;
+    public GameObject burningParticlesPrefab;
     public float turretRotateSpeed = 5f;
     public float moveSpeed = 5f;
     public float rotateSpeed = 100f;
-    public int health = 100;
     public float fireRate = 1f; // Время перезарядки в секундах
     public float projectileSpeed = 100f;
+    public int health = 100;
+    private float nextFireTime = 0f;
     private int currentProjectileIndex = 0;
     private bool isDestroyed = false;
-    private float nextFireTime = 0f;
-    public Text restartingText; // Ссылка на текстовый объект UI
+    private bool canBeDestroyed = true;
     void Update()
     {
         if (!isDestroyed)
@@ -26,6 +29,7 @@ public class PlayerTankController : MonoBehaviour
             RotateTurret();
             HandleShooting();
             HandleProjectileSwitching();
+            
         }
     }
 
@@ -90,19 +94,40 @@ public class PlayerTankController : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            PlayerDie();
+            Die();
         }
     }
 
-    void PlayerDie()
+    void Die()
     {
         isDestroyed = true;
-        Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-        turretRb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Отбрасываем башню вверх
-        // Дополнительная логика уничтожения танка
-        ShowRestartingMessage();
-        Invoke(nameof(RestartScene), 3f); // Перезапуск сцены через 5 секунд (уменьшено время)
-        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 5 секунд
+        if (canBeDestroyed)
+        {
+
+            Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
+            if (turretRb != null)
+            {
+                turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
+            }
+            ShowRestartingMessage();
+            Invoke(nameof(RestartScene), 3f); // Перезапуск сцены через 5 секунд (уменьшено время)
+            Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 5 секунд
+            Renderer[] renderers = GetComponentsInChildren<Renderer>();
+            foreach (Renderer renderer in renderers)
+            {
+                if (renderer != null)
+                {
+                    renderer.material = grayMaterial;
+                }
+            }
+            // Создание частиц горения
+            if (burningParticlesPrefab != null)
+            {
+                Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
+            }
+
+            canBeDestroyed = false;
+        }
     }
     void ShowRestartingMessage()
     {
