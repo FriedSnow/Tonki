@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Сохраняем объект при перезагрузке сцены
+            //DontDestroyOnLoad(gameObject); // Сохраняем объект при перезагрузке сцены
         }
         else
         {

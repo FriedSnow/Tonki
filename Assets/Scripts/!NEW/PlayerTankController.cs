@@ -16,7 +16,9 @@ public class PlayerTankController : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotateSpeed = 100f;
     public float fireRate = 1f; // Время перезарядки в секундах
-    public float projectileSpeed = 100f;
+    public float projectileSpeed = 200f;
+    public float APSpeed = 200f;
+    public float HESpeed = 100f;
     public int health = 100;
     private float nextFireTime = 0f;
     private int currentProjectileIndex = 0;
@@ -69,10 +71,12 @@ public class PlayerTankController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentProjectileIndex = 0;
+            projectileSpeed = APSpeed;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             currentProjectileIndex = 1;
+            projectileSpeed = HESpeed;
         }
     }
 
