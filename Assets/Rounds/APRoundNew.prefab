@@ -316,7 +316,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -369,9 +369,10 @@ MonoBehaviour:
   damage: 20
   sabotDamage: 20
   bulletPartPrefab: {fileID: 7000033709177148673, guid: d43857de63e8e144e9dac5b695457613, type: 3}
+  explosionParticlesPrefab: {fileID: 4656518453552565289, guid: c8445c4747b784b4e81a47062f03e8e2, type: 3}
   numOfParts: 3
   spreadAngle: 15
-  partSpeed: 10
+  partSpeed: 100
 --- !u!114 &3735586148843800019
 MonoBehaviour:
   m_ObjectHideFlags: 0
