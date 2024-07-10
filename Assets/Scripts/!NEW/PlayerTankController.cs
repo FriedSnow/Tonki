@@ -11,6 +11,7 @@ public class PlayerTankController : MonoBehaviour
     public Text restartingText; // Ссылка на текстовый объект UI
     public Material grayMaterial;
     public GameObject burningParticlesPrefab;
+    public GameObject explosionParticlesPrefab;
     public float turretRotateSpeed = 5f;
     public float moveSpeed = 5f;
     public float rotateSpeed = 100f;
@@ -29,7 +30,7 @@ public class PlayerTankController : MonoBehaviour
             RotateTurret();
             HandleShooting();
             HandleProjectileSwitching();
-            
+
         }
     }
 
@@ -124,6 +125,11 @@ public class PlayerTankController : MonoBehaviour
             if (burningParticlesPrefab != null)
             {
                 Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
+            }
+            if (explosionParticlesPrefab != null)
+            {
+                GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
+                Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
             }
 
             canBeDestroyed = false;

@@ -12,6 +12,7 @@ public class EnemyTankController : MonoBehaviour
     public Transform player;
     public Material grayMaterial;
     public GameObject burningParticlesPrefab;
+    public GameObject explosionParticlesPrefab;
     public float moveSpeed = 5f;
     public float rotateSpeed = 2f;
     public float turretRotateSpeed = 5f;
@@ -25,7 +26,7 @@ public class EnemyTankController : MonoBehaviour
     private float firingAngleThreshold = 145f; // Допустимый угол отклонения прицела
     private bool isDestroyed = false;
     private bool canBeDestroyed = true;
-    
+
 
     void Start()
     {
@@ -166,32 +167,38 @@ public class EnemyTankController : MonoBehaviour
     {
         isDestroyed = true;
 
-        if (canBeDestroyed){
-
-        Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-        if (turretRb != null)
+        if (canBeDestroyed)
         {
-            turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
-        }
-        StopAllCoroutines();
-        Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 3 секунды
-        EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
 
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
-        {
-            if (renderer != null)
+            Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
+            if (turretRb != null)
             {
-                renderer.material = grayMaterial;
+                turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
             }
-        }
-        // Создание частиц горения
-        if (burningParticlesPrefab != null)
-        {
-            Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
-        }
+            StopAllCoroutines();
+            Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 3 секунды
+            EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
 
-        canBeDestroyed = false;
+            Renderer[] renderers = GetComponentsInChildren<Renderer>();
+            foreach (Renderer renderer in renderers)
+            {
+                if (renderer != null)
+                {
+                    renderer.material = grayMaterial;
+                }
+            }
+            // Создание частиц горения
+            if (burningParticlesPrefab != null)
+            {
+                Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
+            }
+            if (explosionParticlesPrefab != null)
+            {
+                GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
+                Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
+            }
+
+            canBeDestroyed = false;
         }
     }
 
