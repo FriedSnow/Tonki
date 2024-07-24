@@ -12,12 +12,14 @@ public class PlayerTankController : MonoBehaviour
     public Material grayMaterial;
     public GameObject burningParticlesPrefab;
     public GameObject explosionParticlesPrefab;
+    public GameObject shootParticlesPrefab;
     public float turretRotateSpeed = 5f;
     public float moveSpeed = 5f;
     public float rotateSpeed = 100f;
     public float fireRate = 1f; // Время перезарядки в секундах
     public float projectileSpeed = 200f;
     public float APSpeed = 200f;
+    public float HEATSpeed = 200f;
     public float HESpeed = 100f;
     public int health = 100;
     private float nextFireTime = 0f;
@@ -76,6 +78,11 @@ public class PlayerTankController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             currentProjectileIndex = 1;
+            projectileSpeed = HEATSpeed;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            currentProjectileIndex = 2;
             projectileSpeed = HESpeed;
         }
     }
@@ -91,6 +98,11 @@ public class PlayerTankController : MonoBehaviour
                 rb.velocity = firePoint.forward * projectileSpeed;
             }
             Destroy(projectile, 5f); // Уничтожаем снаряд через 5 секунд, чтобы не засорять сцену
+            if (shootParticlesPrefab != null)
+            {
+                GameObject shootParticles = Instantiate(shootParticlesPrefab, firePoint.position, firePoint.rotation);
+                Destroy(shootParticles, 3f); // Уничтожение частиц через 3 секунды
+            }
         }
     }
 

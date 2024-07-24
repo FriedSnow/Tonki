@@ -13,6 +13,7 @@ public class EnemyTankController : MonoBehaviour
     public Material grayMaterial;
     public GameObject burningParticlesPrefab;
     public GameObject explosionParticlesPrefab;
+    public GameObject shootParticlesPrefab;
     public float moveSpeed = 5f;
     public float rotateSpeed = 2f;
     public float turretRotateSpeed = 5f;
@@ -152,6 +153,11 @@ public class EnemyTankController : MonoBehaviour
             rb.velocity = firePoint.forward * projectileSpeed;
         }
         Destroy(projectile, 5f); // Уничтожаем снаряд через 5 секунд, чтобы не засорять сцену
+        if (shootParticlesPrefab != null)
+        {
+            GameObject shootParticles = Instantiate(shootParticlesPrefab, firePoint.position, firePoint.rotation);
+            Destroy(shootParticles, 3f); // Уничтожение частиц через 3 секунды
+        }
     }
 
     public void TakeDamage(int damage)
