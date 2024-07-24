@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
     }
     public void StartPVPGame()
     {
-        SceneManager.LoadScene("PVPScene"); 
+        SceneManager.LoadScene("PVEScene"); 
     }
 
     // Метод для выхода из игры
