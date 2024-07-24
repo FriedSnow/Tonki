@@ -424,7 +424,7 @@ Transform:
   m_GameObject: {fileID: 4249033958541321972}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.152, z: -0.03}
+  m_LocalPosition: {x: 0, y: 1.152, z: 1}
   m_LocalScale: {x: 4, y: 4, z: 0.63291115}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -533,6 +533,7 @@ MonoBehaviour:
   tank: {fileID: 5205519241090130013}
   turret: {fileID: 763741315412298266}
   firePoint: {fileID: 4491870962625262055}
+  tankTransform: {fileID: 6438037687029573197}
   projectilePrefabs:
   - {fileID: 3652514374024673367, guid: f980cfc4c20739d42a31b58b84f1b618, type: 3}
   - {fileID: 3098992300101863374, guid: 38f6a6d5144295a44b0fcebc2931006b, type: 3}

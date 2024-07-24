@@ -7,6 +7,7 @@ public class PlayerTankController : MonoBehaviour
     public GameObject tank;
     public Transform turret;
     public Transform firePoint;
+    public Transform tankTransform;
     public GameObject[] projectilePrefabs; // Снаряды для различных типов
     public Text restartingText; // Ссылка на текстовый объект UI
     public Material grayMaterial;
@@ -31,10 +32,16 @@ public class PlayerTankController : MonoBehaviour
         if (!isDestroyed)
         {
             MoveTank();
-            RotateTurret();
+            // RotateTurret();
             HandleShooting();
             HandleProjectileSwitching();
+            Vector3 targetPosition = GetMouseWorldPosition();
+            Vector3 direction = targetPosition - turret.position;
+            direction = tankTransform.InverseTransformDirection(direction); // Переводим направление в локальные координаты танка
+            direction.y = 0; // Игнорируем высоту для вращения
 
+            Quaternion targetRotation = Quaternion.LookRotation(tankTransform.TransformDirection(direction), tankTransform.up);
+            turret.rotation = Quaternion.Lerp(turret.rotation, targetRotation, 5 * Time.deltaTime);
         }
     }
 
@@ -46,6 +53,17 @@ public class PlayerTankController : MonoBehaviour
         transform.Translate(0, 0, move);
         transform.Rotate(0, rotate, 0);
     }
+    Vector3 GetMouseWorldPosition()
+    {
+        Plane plane = new Plane(Vector3.up, tankTransform.position.y); // Плоскость на уровне танка
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float distance;
+        if (plane.Raycast(ray, out distance))
+        {
+            return ray.GetPoint(distance);
+        }
+        return Vector3.zero;
+    }
 
     void RotateTurret()
     {
@@ -53,9 +71,12 @@ public class PlayerTankController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Vector3 targetPosition = hit.point;
-            Vector3 direction = (targetPosition - turret.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            turret.rotation = Quaternion.Slerp(turret.rotation, lookRotation, Time.deltaTime * turretRotateSpeed);
+            Vector3 direction = targetPosition - transform.position; // transform.position - позиция корпуса танка
+            direction = transform.InverseTransformDirection(direction); // Переводим направление в локальные координаты танка
+            direction.y = 0; // Игнорируем высоту для вращения
+
+            Quaternion targetRotation = Quaternion.LookRotation(transform.TransformDirection(direction), Vector3.up);
+            turret.rotation = Quaternion.Slerp(turret.rotation, targetRotation, Time.deltaTime * turretRotateSpeed);
         }
     }
 
