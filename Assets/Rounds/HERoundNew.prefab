@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1748133891359327210}
   - component: {fileID: 1372453468373447087}
   - component: {fileID: 4885636545466942982}
-  - component: {fileID: 7652951446437344459}
   - component: {fileID: 3799876112617127072}
   - component: {fileID: 6200849974638186779}
   m_Layer: 0
@@ -120,7 +119,7 @@ MonoBehaviour:
   explosionParticlesPrefab: {fileID: 4656518453552565289, guid: c701710a945fcec4c8ece0bddca2034b, type: 3}
   damage: 20
   explosionRadius: 7.5
-  explosionForce: 50
+  explosionForce: 10000
 --- !u!136 &1372453468373447087
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -171,23 +170,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7652951446437344459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3098992300101863374}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa55b8456a4c1754290e9fa808bf7848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifespan: 5
-  explosionRadius: 5
-  explosionForce: 7000
-  damage: 20
-  explosionParticlesPrefab: {fileID: 4656518453552565289, guid: c701710a945fcec4c8ece0bddca2034b, type: 3}
 --- !u!114 &3799876112617127072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +189,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3098992300101863374}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fb998bf80f1855b42a1a00c0c3be0238, type: 3}

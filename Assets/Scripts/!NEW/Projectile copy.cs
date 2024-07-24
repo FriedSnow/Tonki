@@ -6,12 +6,15 @@ public class Projectile2 : MonoBehaviour
     public int damage = 20;
     public float explosionRadius = 5f;
     public float explosionForce = 10f;
+    private bool isExploded = false;
     void Start(){
 
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (!isExploded){
+
         Explode();
         if (collision.collider.CompareTag("Player"))
         {
@@ -29,6 +32,7 @@ public class Projectile2 : MonoBehaviour
             {
                 enemyTank.TakeDamage(damage);
             }
+        }
         }
     }
     private void OnTriggerEnter(Collider other){
