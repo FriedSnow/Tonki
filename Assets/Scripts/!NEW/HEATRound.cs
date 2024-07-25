@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CumulativeShell : MonoBehaviour
+public class HEATRound : MonoBehaviour
 {
     public GameObject cumulativeJetPrefab; // Префаб кумулятивной струи
     public GameObject jetParticlesPrefab;
@@ -20,6 +20,7 @@ public class CumulativeShell : MonoBehaviour
             isArmed = true;
             return;
         }
+        SupplyMethods.DealDamage(collision, 2);
 
         // Останавливаем снаряд
         GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -53,23 +54,7 @@ public class CumulativeShell : MonoBehaviour
         RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, jetLength);
         foreach (RaycastHit hit in hits)
         {
-            if (hit.collider.CompareTag("Player"))
-            {
-                PlayerTankController playerTank = hit.collider.GetComponent<PlayerTankController>();
-                if (playerTank != null)
-                {
-                    playerTank.TakeDamage(damage);
-                }
-            }
-
-            if (hit.collider.CompareTag("Enemy"))
-            {
-                EnemyTankController enemyTank = hit.collider.GetComponent<EnemyTankController>();
-                if (enemyTank != null)
-                {
-                    enemyTank.TakeDamage(damage);
-                }
-            }
+            SupplyMethods.DealDamage(hit, damage);
         }
         if (jetParticlesPrefab != null)
         {

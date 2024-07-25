@@ -1,41 +1,27 @@
 using UnityEngine;
 
-public class Projectile2 : MonoBehaviour
+public class HERound : MonoBehaviour
 {
     public GameObject explosionParticlesPrefab;
     public int damage = 20;
     public float explosionRadius = 5f;
     public float explosionForce = 10f;
     private bool isExploded = false;
-    void Start(){
+    void Start()
+    {
 
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!isExploded){
-
-        Explode();
-        if (collision.collider.CompareTag("Player"))
+        if (!isExploded)
         {
-            PlayerTankController playerTank = collision.collider.GetComponent<PlayerTankController>();
-            if (playerTank != null)
-            {
-                playerTank.TakeDamage(damage);
-            }
-        }
-
-        if (collision.collider.CompareTag("Enemy"))
-        {
-            EnemyTankController enemyTank = collision.collider.GetComponent<EnemyTankController>();
-            if (enemyTank != null)
-            {
-                enemyTank.TakeDamage(damage);
-            }
-        }
+            Explode();
+            SupplyMethods.DealDamage(collision, damage);
         }
     }
-    private void OnTriggerEnter(Collider other){
+    private void OnTriggerEnter(Collider other)
+    {
 
         //Physics.IgnoreCollision(other, GetComponent<Collider>());
         GetComponent<Renderer>().enabled = false;
