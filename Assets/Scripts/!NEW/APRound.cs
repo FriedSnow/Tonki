@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class APRound : MonoBehaviour
 {
     public int damage = 20;
     public float sabotDamage = 20f;
@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public int numOfParts = 3;
     public float spreadAngle = 15f;
     public float partSpeed = 100f;
+    private bool isHit = false;
     void Start()
     {
         for (int i = 0; i < numOfParts; i++)
@@ -34,28 +35,19 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.collider.CompareTag("Player"))
+        SupplyMethods.DealDamage(collision, damage);
+        if (!isHit)
         {
-            PlayerTankController playerTank = collision.collider.GetComponent<PlayerTankController>();
-            if (playerTank != null)
+            if (explosionParticlesPrefab != null)
             {
-                playerTank.TakeDamage(damage);
+                GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
+                Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
             }
-        }
-
-        if (collision.collider.CompareTag("Enemy"))
-        {
-            EnemyTankController enemyTank = collision.collider.GetComponent<EnemyTankController>();
-            if (enemyTank != null)
-            {
-                enemyTank.TakeDamage(damage);
-            }
+            isHit = true;
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-
         //Physics.IgnoreCollision(other, GetComponent<Collider>());
         GetComponent<Renderer>().enabled = false;
         Renderer[] childRenderers = GetComponentsInChildren<Renderer>();
@@ -64,11 +56,6 @@ public class Projectile : MonoBehaviour
             childRenderer.enabled = false;
         }
 
-        if (explosionParticlesPrefab != null)
-        {
-            GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
-            Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
-        }
 
         // Destroy(gameObject, 1f);
     }

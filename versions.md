@@ -12,3 +12,8 @@ PVE/ *fix* - moved *brick*
 
 ### 0.2.11
 PVE/Tank(player) *add* - костыль с поворотом башни  
+
+### 0.2.12
+PVE/Tank(player) *add* - machine gun\
+PVE/ *add* - заборчики)\
+PVE/ *fix* - rebalanced forces  
