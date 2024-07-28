@@ -17,3 +17,8 @@ PVE/Tank(player) *add* - костыль с поворотом башни
 PVE/Tank(player) *add* - machine gun\
 PVE/ *add* - заборчики)\
 PVE/ *fix* - rebalanced forces  
+
+### 0.2.13
+PVE/ *remove* - Tank\
+PVE/ *add* - T-90A\
+PVE/ *fix* - rebalanced tank stats

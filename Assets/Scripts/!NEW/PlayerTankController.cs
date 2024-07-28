@@ -174,11 +174,11 @@ public class PlayerTankController : MonoBehaviour
         isDestroyed = true;
         if (canBeDestroyed)
         {
-            Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-            if (turretRb != null)
-            {
-                turretRb.AddForce(Vector3.up * 5f);
-            }
+            // Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
+            // if (turretRb != null)
+            // {
+            //     turretRb.AddForce(Vector3.up * 5f);
+            // }
             ShowRestartingMessage();
             Invoke(nameof(RestartScene), 3f);
             Invoke(nameof(RemoveTankModel), 3f);
