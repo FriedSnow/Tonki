@@ -65,6 +65,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
   serializedClasses:
     Unity.Postprocessing.Runtime:
@@ -96,6 +97,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.FontData
     - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
     - UnityEngine.UI.Navigation
+    - UnityEngine.UI.Slider/SliderEvent
     - UnityEngine.UI.SpriteState
   methodsToPreserve:
   - assembly: Assembly-CSharp
@@ -517,6 +519,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 4772}
     - Class: 114
       Script: {instanceID: 4918}
+    - Class: 114
+      Script: {instanceID: 5134}
     - Class: 114
       Script: {instanceID: 5250}
     - Class: 114
@@ -1007,7 +1011,7 @@ ScriptsOnlyBuild:
     className: UnityOnMouseExitMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 872173cb8fb4810748ffad43b8f7ad12
+      Hash: 77d82fd81d1bbfc544e0fb16fcbcfe60
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerTankController

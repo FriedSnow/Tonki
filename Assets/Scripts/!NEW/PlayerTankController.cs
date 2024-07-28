@@ -4,38 +4,74 @@ using UnityEngine.UI;
 
 public class PlayerTankController : MonoBehaviour
 {
-    public GameObject tank;
-    public Transform turret;
-    public Transform firePoint;
-    public Transform tankTransform;
-    public Transform machineGun;          // Добавлен новый объект для зенитного пулемета
-    public Transform machineGunFirePoint; // Точка выстрела для зенитного пулемета
-    public GameObject[] projectilePrefabs; 
-    public GameObject mgProjectilePrefab; // Снаряд для зенитного пулемета
-    public Text restartingText; 
-    public Material grayMaterial;
-    public GameObject burningParticlesPrefab;
-    public GameObject explosionParticlesPrefab;
-    public GameObject shootParticlesPrefab;
-    public Rigidbody tankRigidbody;
-    public float turretRotateSpeed = 5f;
-    public float mgRotateSpeed = 10f;    // Скорость вращения зенитного пулемета
-    public float moveSpeed = 5f;
-    public float rotateSpeed = 100f;
-    public float fireRate = 1f; 
-    public float projectileSpeed = 200f;
     public float APSpeed = 200f;
     public float HEATSpeed = 200f;
     public float HESpeed = 100f;
-    public float mgFireRate = 0.1f;      // Скорострельность зенитного пулемета
-    public float mgProjectileSpeed = 300f; // Скорость снаряда зенитного пулемета
-    public int health = 100;
-    public float recoilForce = 100f;
-    private float nextFireTime = 0f;
-    private float nextMGFireTime = 0f;   // Таймер для зенитного пулемета
-    private int currentProjectileIndex = 0;
-    private bool isDestroyed = false;
+    public float fireRate = 1f;
+    public float mgFireRate = 0.1f;
+    public float mgProjectileSpeed = 300f;
+    public float mgRotateSpeed = 10f;
+    public float moveSpeed = 5f;
+    public float projectileSpeed = 200f;        //скорость снаряда по умолчанию
+    public float recoilForce = 100f;            //отдача после выстрела главного орудия
+    public float rotateSpeed = 100f;            //скорость поворота корпуса
+    public float turretRotateSpeed = 5f;        //скорость поворота башни
+    public GameObject burningParticlesPrefab;   //частицы горения танка после уничтожения
+    public GameObject explosionParticlesPrefab; //частицы взрыва танка после уничтожения
+    public GameObject mgProjectilePrefab;       //снаряд для зенитного пулемета
+    public GameObject[] projectilePrefabs;      //массив типов снарядов танка
+    public GameObject shootParticlesPrefab;     //частицы выстрела
+    public GameObject tank;                     //обьект танка
+    public Material grayMaterial;               //материал уничтоженного танка
+    public Rigidbody tankRigidbody;             //еще один обьект танка
+    public Slider healthBar;                    //ссылка на UI элемент Slider
+    public Text restartingText;                 //ссылка на UI текста выводимого при рестарте
+    public Text ammoText;                       //ссылка на UI текста выводимого при рестарте
+    public Text mgAmmoText;                     //ссылка на UI текста выводимого при рестарте
+    public Transform firePoint;                 //точка выстрела
+    public Transform machineGun;                //объект зенитного пулемета
+    public Transform machineGunFirePoint;       //точка выстрела зенитного пулемета
+    public Transform tankTransform;             //и еще один обьект танка
+    public Transform turret;                    //обьект башни
+    public int ammo = 20;
+    public int mgAmmo = 2000;
+    public int health = 200;
+    public int maxHealth = 200;
     private bool canBeDestroyed = true;
+    private bool isDestroyed = false;
+    private float nextFireTime = 0f;            //таймер основного орудия
+    private float nextMGFireTime = 0f;          //таймер зенитного пулемета
+    private int currentProjectileIndex = 0;     //индекс выбранного снаряда в массиве типов
+    private Gradient gradient;                  //градиент для смены цветов
+    private Image fillImage;                    //ссылка на Image компонента Fill
+
+    void Start()
+    {
+        health = maxHealth;
+        if (healthBar != null)
+        {
+            healthBar.maxValue = maxHealth;
+            healthBar.value = health;
+
+            // Получаем ссылку на Image компонента Fill
+            fillImage = healthBar.fillRect.GetComponent<Image>();
+
+            // Настраиваем градиент
+            gradient = new Gradient();
+            gradient.SetKeys(
+                new GradientColorKey[] {
+                    new GradientColorKey(Color.green, 1f),
+                    new GradientColorKey(Color.yellow, 0.5f),
+                    new GradientColorKey(Color.red, 0f)
+                },
+                new GradientAlphaKey[] {
+                    new GradientAlphaKey(1f, 0f),
+                    new GradientAlphaKey(1f, 1f)
+                }
+            );
+            UpdateHealthBarColor();
+        }
+    }
 
     void Update()
     {
@@ -46,6 +82,7 @@ public class PlayerTankController : MonoBehaviour
             RotateMachineGun();
             HandleShooting();
             HandleProjectileSwitching();
+            UpdateAmmoText();
         }
     }
 
@@ -54,7 +91,18 @@ public class PlayerTankController : MonoBehaviour
         float move = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
         float rotate = Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
 
-        transform.Translate(0, 0, move);
+        // Проверяем направление движения
+        if (move > 0)
+        {
+            // Едем вперед
+            transform.Translate(0, 0, move);
+        }
+        else
+        {
+            // Едем назад
+            transform.Translate(0, 0, move * .75f);
+        }
+
         transform.Rotate(0, rotate, 0);
     }
 
@@ -94,16 +142,18 @@ public class PlayerTankController : MonoBehaviour
 
     void HandleShooting()
     {
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextFireTime && ammo > 0)
         {
             FireProjectile();
             nextFireTime = Time.time + fireRate;
+            ammo--;
         }
 
-        if (Input.GetKey(KeyCode.Space) && Time.time >= nextMGFireTime)
+        if (Input.GetKey(KeyCode.Space) && Time.time >= nextMGFireTime && mgAmmo > 0)
         {
             FireMGProjectile();
             nextMGFireTime = Time.time + mgFireRate;
+            mgAmmo--;
         }
     }
 
@@ -163,10 +213,28 @@ public class PlayerTankController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        if (healthBar != null)
+        {
+            healthBar.value = health;
+            UpdateHealthBarColor();
+        }
         if (health <= 0)
         {
             Die();
         }
+    }
+    void UpdateHealthBarColor()
+    {
+        if (fillImage != null && gradient != null)
+        {
+            float normalizedHealth = (float)health / maxHealth;
+            fillImage.color = gradient.Evaluate(normalizedHealth);
+        }
+    }
+    void UpdateAmmoText()
+    {
+        ammoText.text = ammo.ToString();
+        mgAmmoText.text = mgAmmo.ToString();
     }
 
     void Die()
@@ -174,11 +242,6 @@ public class PlayerTankController : MonoBehaviour
         isDestroyed = true;
         if (canBeDestroyed)
         {
-            // Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-            // if (turretRb != null)
-            // {
-            //     turretRb.AddForce(Vector3.up * 5f);
-            // }
             ShowRestartingMessage();
             Invoke(nameof(RestartScene), 3f);
             Invoke(nameof(RemoveTankModel), 3f);

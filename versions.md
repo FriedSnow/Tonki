@@ -22,3 +22,10 @@ PVE/ *fix* - rebalanced forces
 PVE/ *remove* - Tank\
 PVE/ *add* - T-90A\
 PVE/ *fix* - rebalanced tank stats
+
+### 0.2.14
+PVE/T-90A *fix* - rebalanced speed\
+PVE/T-90A *add* - HP bar\
+PVE/T-90A *add* - Ammo count  
+PVE/T-90A *add* - MG Ammo count  
+/ *fix* - cleaned PlayerTankController.cs
