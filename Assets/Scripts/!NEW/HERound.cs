@@ -7,10 +7,6 @@ public class HERound : MonoBehaviour
     public float explosionRadius = 5f;
     public float explosionForce = 10f;
     private bool isExploded = false;
-    void Start()
-    {
-
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -22,8 +18,6 @@ public class HERound : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
-        //Physics.IgnoreCollision(other, GetComponent<Collider>());
         GetComponent<Renderer>().enabled = false;
         Renderer[] childRenderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer childRenderer in childRenderers)
