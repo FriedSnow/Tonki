@@ -45,6 +45,10 @@ public class APRound : MonoBehaviour
             }
             isHit = true;
         }
+        if (collision.collider.CompareTag("Player"))
+        {
+            Destroy(gameObject, .1f);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
