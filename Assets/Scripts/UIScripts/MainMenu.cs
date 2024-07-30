@@ -24,6 +24,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("PVEScene 1"); 
     }
+    public void StartArenaGame()
+    {
+        SceneManager.LoadScene("ArenaScene"); 
+    }
 
     // Метод для выхода из игры
     public void ExitGame()

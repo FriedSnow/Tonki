@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     public Text restartingText; // Ссылка на текстовый объект UI
     public float restartDelay = 3f; // Задержка перед перезапуском сцены
 
-    private int enemyCount = 0;
+    public static int enemyCount = 0;
 
     void Awake()
     {
