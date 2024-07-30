@@ -26,6 +26,15 @@ PVE/ *fix* - rebalanced tank stats
 ### 0.2.14
 PVE/T-90A *fix* - rebalanced speed\
 PVE/T-90A *add* - HP bar\
-PVE/T-90A *add* - Ammo count  
-PVE/T-90A *add* - MG Ammo count  
+PVE/T-90A *add* - Ammo count\
+PVE/T-90A *add* - MG Ammo count\
 / *fix* - cleaned PlayerTankController.cs
+
+### 0.2.15
+PVE/T-90A - *fix* - rebalanced acceleration\
+PVE/T-90A - *fix* - rebalanced recoil\
+PVE/T-90A - *fix* - rebalanced acceleration(2)\
+PVE/Enemy - *fix* - fixed *AI*\
+PVE/ - *add* - Cannon and MG icons\
+/AP round - *fix* - bigger collider\
+/ - *add* - app icon

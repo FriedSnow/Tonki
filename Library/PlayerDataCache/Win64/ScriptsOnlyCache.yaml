@@ -19,6 +19,7 @@ ScriptsOnlyBuild:
     - EnemyManager
     - EnemyTankController
     - GameManager
+    - GroundCheck
     - HEATRound
     - HERound
     - HighExplosiveBullet
@@ -205,11 +206,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7756}
+      Script: {instanceID: 7758}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -316,11 +317,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7756}
+      Script: {instanceID: 7758}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -423,11 +424,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6262}
     - Class: 114
-      Script: {instanceID: 6884}
+      Script: {instanceID: 6886}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7640}
+      Script: {instanceID: 7642}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -538,17 +539,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 6884}
+      Script: {instanceID: 6610}
     - Class: 114
-      Script: {instanceID: 7120}
+      Script: {instanceID: 6886}
     - Class: 114
-      Script: {instanceID: 7136}
+      Script: {instanceID: 7122}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7138}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7514}
+      Script: {instanceID: 7362}
+    - Class: 114
+      Script: {instanceID: 7516}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -663,17 +666,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 6884}
+      Script: {instanceID: 6886}
     - Class: 114
-      Script: {instanceID: 7120}
+      Script: {instanceID: 7122}
     - Class: 114
-      Script: {instanceID: 7136}
+      Script: {instanceID: 7138}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7514}
+      Script: {instanceID: 7516}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -784,13 +787,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7640}
+      Script: {instanceID: 7642}
     - Class: 114
-      Script: {instanceID: 7756}
+      Script: {instanceID: 7758}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -905,13 +908,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 6606}
     - Class: 114
-      Script: {instanceID: 6884}
+      Script: {instanceID: 6886}
     - Class: 114
-      Script: {instanceID: 7312}
+      Script: {instanceID: 7314}
     - Class: 114
-      Script: {instanceID: 7360}
+      Script: {instanceID: 7362}
     - Class: 114
-      Script: {instanceID: 7756}
+      Script: {instanceID: 7758}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1011,7 +1014,7 @@ ScriptsOnlyBuild:
     className: UnityOnMouseExitMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 77d82fd81d1bbfc544e0fb16fcbcfe60
+      Hash: 181007169c9d0286d7b3bb2a15f54e9f
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerTankController
@@ -1737,7 +1740,7 @@ ScriptsOnlyBuild:
     className: StateGraphAsset
   - hash:
       serializedVersion: 2
-      Hash: c2387e6d8459ffe5e20938a3d4f7629f
+      Hash: 7a4c8afa31274a6c90cc2c7b39f49b05
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: EnemyTankController
@@ -1873,6 +1876,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: CursorObjectController
+  - hash:
+      serializedVersion: 2
+      Hash: c42109277db0de0dd871e664507ae95c
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: GroundCheck
   - hash:
       serializedVersion: 2
       Hash: 17142b03663387290480c82303274c02

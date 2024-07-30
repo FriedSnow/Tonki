@@ -24,7 +24,7 @@ public class EnemyTankController : MonoBehaviour
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
     public LayerMask obstacleMask; // Маска для препятствий
-    private float firingAngleThreshold = 145f; // Допустимый угол отклонения прицела
+    public float firingAngleThreshold = 145f; // Допустимый угол отклонения прицела
     private bool isDestroyed = false;
     private bool canBeDestroyed = true;
 
@@ -127,6 +127,7 @@ public class EnemyTankController : MonoBehaviour
                 else
                 {
                     Debug.Log("Obstacle detected: " + hit.transform.name);
+                    
                 }
             }
             else
@@ -138,6 +139,7 @@ public class EnemyTankController : MonoBehaviour
         else
         {
             Debug.Log("Player out of angle range: " + angle);
+            return true;
         }
 
         return false;
