@@ -77,7 +77,9 @@ public class PlayerTankController : MonoBehaviour
         else
             maxSpeed = slow;
     }
-
+    private void OnTriggerEnter(Collider other) {
+        CheckAmmoBox(other);
+    }
     void MoveTank()
     {
         float moveInput = Input.GetAxis("Vertical");
@@ -109,9 +111,6 @@ public class PlayerTankController : MonoBehaviour
         float rotate = rotateInput * rotateSpeed * Time.deltaTime;
         transform.Rotate(0, rotate, 0);
     }
-
-
-
 
     Vector3 GetMouseWorldPosition()
     {
@@ -326,5 +325,22 @@ public class PlayerTankController : MonoBehaviour
     public bool IsDestroyed()
     {
         return isDestroyed;
+    }
+    void CheckAmmoBox(Collider other)
+    {
+        if (other.gameObject != gameObject)
+        {
+            // Проверяем, что тег объекта-триггера совпадает с одним из тегов, которые мы хотим отслеживать
+
+            if (other.CompareTag("Ammo"))
+            {
+                // Увеличиваем значение счетчика
+                ammo++;
+                mgAmmo+=100;
+                //Debug.Log("Счетчик: " + counterValue);
+                return; // Выходим из метода, так как мы уже обработали столкновение
+            }
+
+        }
     }
 }

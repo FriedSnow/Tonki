@@ -38,3 +38,10 @@ PVE/Enemy - *fix* - fixed *AI*\
 PVE/ - *add* - Cannon and MG icons\
 /AP round - *fix* - bigger collider\
 / - *add* - app icon
+
+### 0.3.0
+/ *add* - Arena\
+Arena - *add* enemy respawn
+Arena & PVE/Enemy - *fix* - fixed *AI*(2)\
+Arena & PVE/Enemy - *add* - drops ammo boxes\
+PVE/ - *add* я что то сломал и теперь оно не рестартит

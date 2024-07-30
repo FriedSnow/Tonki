@@ -9,8 +9,8 @@ public class EnemyTankController : MonoBehaviour
     public Transform turret;
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public Transform player;
     public Material grayMaterial;
+    public GameObject ammoBox;
     public GameObject burningParticlesPrefab;
     public GameObject explosionParticlesPrefab;
     public GameObject shootParticlesPrefab;
@@ -24,14 +24,18 @@ public class EnemyTankController : MonoBehaviour
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
     public LayerMask obstacleMask; // Маска для препятствий
-    public float firingAngleThreshold = 145f; // Допустимый угол отклонения прицела
+    public float firingAngleThreshold = 180f; // Допустимый угол отклонения прицела
     private bool isDestroyed = false;
     private bool canBeDestroyed = true;
-
+    private Transform player; // Теперь ищем игрока по тегу
 
     void Start()
     {
-        playerTankController = player.GetComponent<PlayerTankController>();
+        player = GameObject.FindGameObjectWithTag("Player")?.transform; // Ищем игрока по тегу
+        if (player != null)
+        {
+            playerTankController = player.GetComponent<PlayerTankController>();
+        }
         EnemyManager.instance.RegisterEnemy();
         StartCoroutine(FireRoutine());
     }
@@ -50,6 +54,8 @@ public class EnemyTankController : MonoBehaviour
 
     void MoveTank()
     {
+        if (player == null) return;
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer > desiredDistance)
@@ -85,6 +91,8 @@ public class EnemyTankController : MonoBehaviour
 
     void RotateTurretTowardsPlayer()
     {
+        //if (player == null) return;
+
         Vector3 direction = (player.position - turret.position).normalized;
         if (direction != Vector3.zero)
         {
@@ -101,7 +109,7 @@ public class EnemyTankController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(fireInterval);
-            if (!playerTankController.IsDestroyed() && IsPlayerInSight())
+            if (playerTankController != null && !playerTankController.IsDestroyed() && IsPlayerInSight())
             {
                 FireProjectile();
             }
@@ -110,11 +118,13 @@ public class EnemyTankController : MonoBehaviour
 
     bool IsPlayerInSight()
     {
+        if (player == null) return false;
+
         Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
         float angle = Vector3.Angle(firePoint.forward, directionToPlayer);
 
-        if (angle < firingAngleThreshold)
-        {
+        
+        
             RaycastHit hit;
             if (Physics.Raycast(firePoint.position, directionToPlayer, out hit, Mathf.Infinity, obstacleMask))
             {
@@ -127,7 +137,6 @@ public class EnemyTankController : MonoBehaviour
                 else
                 {
                     Debug.Log("Obstacle detected: " + hit.transform.name);
-                    
                 }
             }
             else
@@ -135,12 +144,8 @@ public class EnemyTankController : MonoBehaviour
                 Debug.Log("No obstacles detected.");
                 return true;
             }
-        }
-        else
-        {
-            Debug.Log("Player out of angle range: " + angle);
-            return true;
-        }
+        
+
 
         return false;
     }
@@ -177,7 +182,6 @@ public class EnemyTankController : MonoBehaviour
 
         if (canBeDestroyed)
         {
-
             Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
             if (turretRb != null)
             {
@@ -196,16 +200,20 @@ public class EnemyTankController : MonoBehaviour
                 }
             }
             // Создание частиц горения
-            if (burningParticlesPrefab != null)
-            {
-                Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
-            }
+            // if (burningParticlesPrefab != null)
+            // {
+            //     Instantiate(burningParticlesPrefab, transform.position, Quaternion.identity);
+            // }
             if (explosionParticlesPrefab != null)
             {
                 GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
                 Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
             }
-
+            Vector3 offset = new Vector3(0, 0, -5);
+            if (ammoBox != null)
+            {
+                Instantiate(ammoBox, transform.position + offset, Quaternion.identity);
+            }
             canBeDestroyed = false;
         }
     }
