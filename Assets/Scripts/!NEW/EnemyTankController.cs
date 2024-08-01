@@ -11,6 +11,7 @@ public class EnemyTankController : MonoBehaviour
     public Transform firePoint;
     public Material grayMaterial;
     public GameObject ammoBox;
+    public GameObject hpBox;
     public GameObject burningParticlesPrefab;
     public GameObject explosionParticlesPrefab;
     public GameObject shootParticlesPrefab;
@@ -123,28 +124,28 @@ public class EnemyTankController : MonoBehaviour
         Vector3 directionToPlayer = (player.position - firePoint.position).normalized;
         float angle = Vector3.Angle(firePoint.forward, directionToPlayer);
 
-        
-        
-            RaycastHit hit;
-            if (Physics.Raycast(firePoint.position, directionToPlayer, out hit, Mathf.Infinity, obstacleMask))
+
+
+        RaycastHit hit;
+        if (Physics.Raycast(firePoint.position, directionToPlayer, out hit, Mathf.Infinity, obstacleMask))
+        {
+            // Проверяем, является ли обнаруженный объект игроком
+            if (hit.transform == player)
             {
-                // Проверяем, является ли обнаруженный объект игроком
-                if (hit.transform == player)
-                {
-                    Debug.Log("Player in sight and no obstacles.");
-                    return true;
-                }
-                else
-                {
-                    Debug.Log("Obstacle detected: " + hit.transform.name);
-                }
+                // Debug.Log("Player in sight and no obstacles.");
+                return true;
             }
             else
             {
-                Debug.Log("No obstacles detected.");
-                return true;
+                // Debug.Log("Obstacle detected: " + hit.transform.name);
             }
-        
+        }
+        else
+        {
+            // Debug.Log("No obstacles detected.");
+            return true;
+        }
+
 
 
         return false;
@@ -178,18 +179,19 @@ public class EnemyTankController : MonoBehaviour
 
     void Die()
     {
+        float rnd = UnityEngine.Random.value;
         isDestroyed = true;
-
         if (canBeDestroyed)
         {
+            EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
             Rigidbody turretRb = turret.gameObject.AddComponent<Rigidbody>();
-            if (turretRb != null)
-            {
-                turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
-            }
+            turretRb.mass = 40f;
+            // if (turretRb != null)
+            // {
+            //     turretRb.AddForce(Vector3.up * 5f); // Отбрасываем башню вверх
+            // }
             StopAllCoroutines();
             Invoke(nameof(RemoveTankModel), 3f); // Удаление модели через 3 секунды
-            EnemyManager.instance.UnregisterEnemy(); // Уменьшаем количество врагов
 
             Renderer[] renderers = GetComponentsInChildren<Renderer>();
             foreach (Renderer renderer in renderers)
@@ -210,9 +212,13 @@ public class EnemyTankController : MonoBehaviour
                 Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
             }
             Vector3 offset = new Vector3(0, 0, -5);
-            if (ammoBox != null)
+            if (ammoBox != null && rnd >.2)
             {
                 Instantiate(ammoBox, transform.position + offset, Quaternion.identity);
+            }
+            else if (hpBox != null)
+            {
+                Instantiate(hpBox, transform.position + offset, Quaternion.identity);
             }
             canBeDestroyed = false;
         }

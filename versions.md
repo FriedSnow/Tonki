@@ -45,3 +45,10 @@ Arena - *add* enemy respawn
 Arena & PVE/Enemy - *fix* - fixed *AI*(2)\
 Arena & PVE/Enemy - *add* - drops ammo boxes\
 PVE/ - *add* я что то сломал и теперь оно не рестартит
+
+### 0.3.1
+PVE/ - *fix* я что то починил\
+PVE/ - *add* вероятное нарушение венской конвенции\
+Arena & PVE/Enemy - *add* - drops HP boxes\
+PVE/T-90A - *fix* - rebalanced acceleration(3)\
+PVE/T-90A - *fix* - rebalanced acceleration(4)  

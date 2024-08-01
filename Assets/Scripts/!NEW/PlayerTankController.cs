@@ -26,7 +26,6 @@ public class PlayerTankController : MonoBehaviour
     public GameObject explosionParticlesPrefab; //частицы взрыва танка после уничтожения
     public GameObject mgProjectilePrefab;       //снаряд для зенитного пулемета
     public GameObject[] projectilePrefabs;      //массив типов снарядов танка
-    public GameObject[] contacts;               //массив точек контакта с поверхностью
     public GameObject shootParticlesPrefab;     //частицы выстрела
     public GameObject shootParticlesMGPrefab;   //частицы выстрела
     public GameObject tank;                     //обьект танка
@@ -56,6 +55,7 @@ public class PlayerTankController : MonoBehaviour
 
 
     private float currentSpeed = 0f; // Текущая скорость танка
+    private float speedMultiplier = 1f;
     void Start()
     {
         health = maxHealth;
@@ -73,45 +73,44 @@ public class PlayerTankController : MonoBehaviour
             UpdateAmmoText();
         }
         if (GroundCheck.Check())
-            maxSpeed = normal;
+            speedMultiplier = normal;
         else
-            maxSpeed = slow;
+            speedMultiplier = slow;
     }
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         CheckAmmoBox(other);
     }
     void MoveTank()
     {
-        float moveInput = Input.GetAxis("Vertical");
         float rotateInput = Input.GetAxis("Horizontal");
+        float moveInput = Input.GetAxis("Vertical");
+        float currentSpeed = tankRigidbody.velocity.magnitude;
 
-
-        // Управление ускорением и замедлением
-        if (moveInput > 0)
+        // Ускорение и замедление
+        if (moveInput > 0 && currentSpeed < maxSpeed)
         {
-            currentSpeed += acceleration * Time.deltaTime;
+            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier , ForceMode.Force);
         }
-        else if (moveInput < 0)
+        else if (moveInput < 0 && currentSpeed < maxSpeed)
         {
-            currentSpeed -= deceleration * Time.deltaTime;
-        }
-        else
-        {
-            // Применение трения, если нет ввода
-            currentSpeed *= friction;
+            tankRigidbody.AddForce(transform.forward * deceleration * moveInput * speedMultiplier, ForceMode.Force);
         }
 
-        // Ограничение скорости
-        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed * 0.75f, maxSpeed);
+        // Ограничение максимальной скорости
+        if (currentSpeed > maxSpeed)
+        {
+            tankRigidbody.velocity = tankRigidbody.velocity.normalized * maxSpeed;
+        }
 
-        // Движение танка
-        transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
-
-        // Поворот танка
         float rotate = rotateInput * rotateSpeed * Time.deltaTime;
         transform.Rotate(0, rotate, 0);
-    }
+        Vector3 velocityDirection = tankRigidbody.velocity.normalized;
+        float angle = Vector3.Angle(transform.forward, velocityDirection);
 
+        // Выводим угол скольжения в консоль
+        Debug.Log("Угол скольжения: " + angle);
+    }
     Vector3 GetMouseWorldPosition()
     {
         Plane plane = new Plane(Vector3.up, tankTransform.position.y);
@@ -331,13 +330,16 @@ public class PlayerTankController : MonoBehaviour
         if (other.gameObject != gameObject)
         {
             // Проверяем, что тег объекта-триггера совпадает с одним из тегов, которые мы хотим отслеживать
-
             if (other.CompareTag("Ammo"))
             {
-                // Увеличиваем значение счетчика
                 ammo++;
-                mgAmmo+=100;
-                //Debug.Log("Счетчик: " + counterValue);
+                mgAmmo += 100;
+                return; // Выходим из метода, так как мы уже обработали столкновение
+            }
+            else if (other.CompareTag("HP") && health < maxHealth)
+            {
+                health += 50;
+                UpdateHealthBarColor();
                 return; // Выходим из метода, так как мы уже обработали столкновение
             }
 
