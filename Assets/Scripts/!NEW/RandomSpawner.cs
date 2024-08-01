@@ -28,7 +28,7 @@ public class RandomSpawner : MonoBehaviour
         // Проверка, прошло ли время для следующего спавна
         if (timer <= 0)
         {
-            if (EnemyManager.enemyCount <= 10)
+            //if (EnemyManager.enemyCount <= 10)
             {
                 // Спавн объекта
                 SpawnObject();

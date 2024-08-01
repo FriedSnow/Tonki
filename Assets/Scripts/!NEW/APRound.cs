@@ -6,6 +6,7 @@ public class APRound : MonoBehaviour
     public float sabotDamage = 20f;
     public GameObject bulletPartPrefab;
     public GameObject explosionParticlesPrefab;
+    public Rigidbody kostylb;
     public int numOfParts = 3;
     public float spreadAngle = 15f;
     public float partSpeed = 100f;
@@ -30,6 +31,12 @@ public class APRound : MonoBehaviour
 
             BulletPart bulletPartScript = part.AddComponent<BulletPart>();
             bulletPartScript.damage = sabotDamage;
+        }
+    }
+    private void Update()
+    {
+        if (kostylb.velocity.magnitude == 0){
+            Destroy(gameObject);
         }
     }
 

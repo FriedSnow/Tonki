@@ -8,7 +8,6 @@ public class AmmoBox : MonoBehaviour
     public float rotationSpeed = 45f;
     public float minY = -1f;
     public float maxY = 1f;
-
     private bool isMovingDown = true;
 
     void Update()
