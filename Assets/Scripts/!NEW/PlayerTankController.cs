@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,11 +14,11 @@ public class PlayerTankController : MonoBehaviour
     public float mgProjectileSpeed = 300f;
     public float mgRotateSpeed = 10f;
     public float maxSpeed = 15f;                // Максимальная скорость танка
+    public float maxAngularVelocity = 2f;       //максимальная скорость поворота корпуса
     public float normal = 15f;
     public float slow = 5f;
     public float acceleration = 5f;             // Ускорение танка
-    public float deceleration = 5f;             // Замедление танка
-    public float friction = 0.9f;               // Коэффициент трения
+    public float rotateAcceleration = 10f;      // Ускорение поворота танка
     public float projectileSpeed = 200f;        //скорость снаряда по умолчанию
     public float recoilForce = 100f;            //отдача после выстрела главного орудия
     public float rotateSpeed = 100f;            //скорость поворота корпуса
@@ -33,8 +34,8 @@ public class PlayerTankController : MonoBehaviour
     public Rigidbody tankRigidbody;             //еще один обьект танка
     public Slider healthBar;                    //ссылка на UI элемент Slider
     public Text restartingText;                 //ссылка на UI текста выводимого при рестарте
-    public Text ammoText;                       //ссылка на UI текста выводимого при рестарте
-    public Text mgAmmoText;                     //ссылка на UI текста выводимого при рестарте
+    public Text ammoText;                       //ссылка на UI текста 
+    public Text mgAmmoText;                     //ссылка на UI текста 
     public Transform firePoint;                 //точка выстрела
     public Transform recoilPoint;               //точка отдачи
     public Transform machineGun;                //объект зенитного пулемета
@@ -52,7 +53,8 @@ public class PlayerTankController : MonoBehaviour
     private int currentProjectileIndex = 0;     //индекс выбранного снаряда в массиве типов
     private Gradient gradient;                  //градиент для смены цветов
     private Image fillImage;                    //ссылка на Image компонента Fill
-
+    public Transform leftTrack;
+    public Transform rightTrack;
 
     private float currentSpeed = 0f; // Текущая скорость танка
     private float speedMultiplier = 1f;
@@ -61,7 +63,7 @@ public class PlayerTankController : MonoBehaviour
         health = maxHealth;
         UpdateHealthBarColor();
     }
-    void Update()
+    private void Update()
     {
         if (!isDestroyed)
         {
@@ -87,29 +89,40 @@ public class PlayerTankController : MonoBehaviour
         float moveInput = Input.GetAxis("Vertical");
         float currentSpeed = tankRigidbody.velocity.magnitude;
 
-        // Ускорение и замедление
+        //вперед - назад
         if (moveInput > 0 && currentSpeed < maxSpeed)
         {
-            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier , ForceMode.Force);
+            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
         }
         else if (moveInput < 0 && currentSpeed < maxSpeed)
         {
-            tankRigidbody.AddForce(transform.forward * deceleration * moveInput * speedMultiplier, ForceMode.Force);
+            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
         }
 
-        // Ограничение максимальной скорости
+        // ограничение максимальной скорости
         if (currentSpeed > maxSpeed)
         {
             tankRigidbody.velocity = tankRigidbody.velocity.normalized * maxSpeed;
         }
 
-        float rotate = rotateInput * rotateSpeed * Time.deltaTime;
-        transform.Rotate(0, rotate, 0);
-        Vector3 velocityDirection = tankRigidbody.velocity.normalized;
-        float angle = Vector3.Angle(transform.forward, velocityDirection);
+        //влево - вправо
+        if (rotateInput > 0)
+        {
+            // Применяем крутящий момент влево
+            tankRigidbody.AddTorque(Vector3.up * rotateAcceleration * speedMultiplier);
+        }
+        else if (rotateInput < 0)
+        {
+            // Применяем крутящий момент вправо
+            tankRigidbody.AddTorque(Vector3.up * -rotateAcceleration * speedMultiplier);
+        }
+        tankRigidbody.angularVelocity = Vector3.ClampMagnitude(tankRigidbody.angularVelocity, maxAngularVelocity);
 
         // Выводим угол скольжения в консоль
-        Debug.Log("Угол скольжения: " + angle);
+        Vector3 velocityDirection = tankRigidbody.velocity.normalized;
+        float angle = Vector3.Angle(transform.forward, velocityDirection);
+        if (currentSpeed >= 1f)
+            Debug.Log("Угол скольжения: " + Math.Round(angle, 2) + " Скорость: " + Math.Round(currentSpeed, 2));
     }
     Vector3 GetMouseWorldPosition()
     {
@@ -297,7 +310,7 @@ public class PlayerTankController : MonoBehaviour
                 GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
                 Destroy(explosionParticles, 3f);
             }
-
+            EnemyManager.score = 0;
             canBeDestroyed = false;
         }
     }
@@ -334,11 +347,13 @@ public class PlayerTankController : MonoBehaviour
             {
                 ammo++;
                 mgAmmo += 100;
+                EnemyManager.score += 25;
                 return; // Выходим из метода, так как мы уже обработали столкновение
             }
             else if (other.CompareTag("HP") && health < maxHealth)
             {
                 health += 50;
+                EnemyManager.score += 25;
                 UpdateHealthBarColor();
                 return; // Выходим из метода, так как мы уже обработали столкновение
             }

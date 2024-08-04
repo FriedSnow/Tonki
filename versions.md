@@ -52,3 +52,8 @@ PVE/ - *add* вероятное нарушение венской конвенц
 Arena & PVE/Enemy - *add* - drops HP boxes\
 PVE/T-90A - *fix* - rebalanced acceleration(3)\
 PVE/T-90A - *fix* - rebalanced acceleration(4)  
+
+### 0.3.2
+PVE/T-90A - *fix* - rebalanced acceleration(5) каждую пятницу одно и то же\
+PVE/T-90A - *fix* - rebalanced angular acceleration\
+/- *fix* - ~~60Hz~~ **165Hz Physics** 

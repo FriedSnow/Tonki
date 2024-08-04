@@ -68,6 +68,8 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
+    Unity.Timeline.Editor.dll:
+    - TimelineProjectSettings
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -268,6 +270,8 @@ ScriptsOnlyBuild:
     - Class: 120
       Script: {instanceID: 0}
     - Class: 128
+      Script: {instanceID: 0}
+    - Class: 134
       Script: {instanceID: 0}
     - Class: 135
       Script: {instanceID: 0}
@@ -1199,7 +1203,7 @@ ScriptsOnlyBuild:
     className: UnityOnMouseExitMessageListener
   - hash:
       serializedVersion: 2
-      Hash: fced5c3908c5628eb792f306c96429d8
+      Hash: 44b1d4c5ca1509e0700fd13198841569
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerTankController
@@ -2249,7 +2253,7 @@ ScriptsOnlyBuild:
     className: GameManager
   - hash:
       serializedVersion: 2
-      Hash: df48d4f6db5058a842d807df2692acb9
+      Hash: 14f94b0118000e5508ef72da1d7fcaa9
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: EnemyManager

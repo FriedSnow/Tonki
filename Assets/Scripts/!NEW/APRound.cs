@@ -35,26 +35,31 @@ public class APRound : MonoBehaviour
     }
     private void Update()
     {
-        if (kostylb.velocity.magnitude == 0){
+        if (kostylb.velocity.magnitude == 0)
+        {
             Destroy(gameObject);
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        SupplyMethods.DealDamage(collision, damage);
-        if (!isHit)
+        if (kostylb.velocity.magnitude > 10)
         {
-            if (explosionParticlesPrefab != null)
+
+            SupplyMethods.DealDamage(collision, damage);
+            if (!isHit)
             {
-                GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
-                Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
+                if (explosionParticlesPrefab != null)
+                {
+                    GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
+                    Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
+                }
+                isHit = true;
             }
-            isHit = true;
-        }
-        if (collision.collider.CompareTag("Player"))
-        {
-            Destroy(gameObject, .1f);
+            if (collision.collider.CompareTag("Player"))
+            {
+                Destroy(gameObject, .1f);
+            }
         }
     }
     private void OnTriggerEnter(Collider other)
