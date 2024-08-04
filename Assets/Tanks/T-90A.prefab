@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 820126862216586606}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1008,10 +1008,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5205519241090130013}
   serializedVersion: 4
-  m_Mass: 5000
+  m_Mass: 500
   m_Drag: 0
   m_AngularDrag: 0
-  m_CenterOfMass: {x: 0, y: -0.5, z: 0}
+  m_CenterOfMass: {x: 0, y: -1, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -1068,11 +1068,11 @@ MonoBehaviour:
   mgProjectileSpeed: 125
   mgRotateSpeed: 10
   maxSpeed: 15
+  maxAngularVelocity: 1.5
   normal: 1
-  slow: 0.01
-  acceleration: 2500
-  deceleration: 2000
-  friction: 0.1
+  slow: 0.001
+  acceleration: 375000
+  rotateAcceleration: 125000
   projectileSpeed: 200
   recoilForce: 10
   rotateSpeed: 125
@@ -1103,8 +1103,6 @@ MonoBehaviour:
   mgAmmo: 1000
   health: 200
   maxHealth: 200
-  leftTrack: {fileID: 3130692134176580520}
-  rightTrack: {fileID: 5621950667749297969}
 --- !u!1 &5256250423325802776
 GameObject:
   m_ObjectHideFlags: 0

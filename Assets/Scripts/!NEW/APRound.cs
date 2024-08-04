@@ -60,6 +60,10 @@ public class APRound : MonoBehaviour
             {
                 Destroy(gameObject, .1f);
             }
+            else 
+            {
+                Destroy(gameObject, 1f);
+            }
         }
     }
     private void OnTriggerEnter(Collider other)

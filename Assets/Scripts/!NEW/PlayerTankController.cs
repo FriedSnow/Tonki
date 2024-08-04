@@ -53,10 +53,6 @@ public class PlayerTankController : MonoBehaviour
     private int currentProjectileIndex = 0;     //индекс выбранного снаряда в массиве типов
     private Gradient gradient;                  //градиент для смены цветов
     private Image fillImage;                    //ссылка на Image компонента Fill
-    public Transform leftTrack;
-    public Transform rightTrack;
-
-    private float currentSpeed = 0f; // Текущая скорость танка
     private float speedMultiplier = 1f;
     void Start()
     {
@@ -99,6 +95,7 @@ public class PlayerTankController : MonoBehaviour
             tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
         }
 
+
         // ограничение максимальной скорости
         if (currentSpeed > maxSpeed)
         {
@@ -115,6 +112,12 @@ public class PlayerTankController : MonoBehaviour
         {
             // Применяем крутящий момент вправо
             tankRigidbody.AddTorque(Vector3.up * -rotateAcceleration * speedMultiplier);
+        }
+        else if (rotateInput == 0)
+        {
+            Vector3 angularVelocity = tankRigidbody.angularVelocity;
+            angularVelocity.y = 0;
+            tankRigidbody.angularVelocity = angularVelocity;
         }
         tankRigidbody.angularVelocity = Vector3.ClampMagnitude(tankRigidbody.angularVelocity, maxAngularVelocity);
 

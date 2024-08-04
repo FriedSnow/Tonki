@@ -57,3 +57,6 @@ PVE/T-90A - *fix* - rebalanced acceleration(4)
 PVE/T-90A - *fix* - rebalanced acceleration(5) каждую пятницу одно и то же\
 PVE/T-90A - *fix* - rebalanced angular acceleration\
 /- *fix* - ~~60Hz~~ **165Hz Physics** 
+
+### 0.3.3
+PVE/ - *fix* - fix acceleration bug 
