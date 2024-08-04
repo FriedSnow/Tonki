@@ -1361,7 +1361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6438037687029573197, guid: 0abf280c8b0eabb4aa31e9756ae1351e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.49
+      value: 1.48
       objectReference: {fileID: 0}
     - target: {fileID: 6438037687029573197, guid: 0abf280c8b0eabb4aa31e9756ae1351e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1394,6 +1394,10 @@ PrefabInstance:
     - target: {fileID: 6438037687029573197, guid: 0abf280c8b0eabb4aa31e9756ae1351e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6783000954341753129, guid: 0abf280c8b0eabb4aa31e9756ae1351e, type: 3}
+      propertyPath: m_Mass
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6783000954341753129, guid: 0abf280c8b0eabb4aa31e9756ae1351e, type: 3}
       propertyPath: m_IsKinematic
@@ -8866,6 +8870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restartingText: {fileID: 1306435990}
+  scoreText: {fileID: 0}
   restartDelay: 3
 --- !u!4 &729136791
 Transform:

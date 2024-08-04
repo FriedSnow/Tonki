@@ -18,5 +18,6 @@ public class CameraFollowTopDown : MonoBehaviour
     {
         // Обновляем положение камеры, чтобы она следовала за объектом
         transform.position = targetObject.position + offset;
+        // transform.rotation = targetObject.rotation;
     }
 }

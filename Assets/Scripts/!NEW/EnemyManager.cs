@@ -7,12 +7,25 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
     public Text restartingText; // Ссылка на текстовый объект UI
+    public Text scoreText;                      //ссылка на UI текста 
+    public static int score = 0;                      //ссылка на UI текста 
     public float restartDelay = 3f; // Задержка перед перезапуском сцены
 
     public static int enemyCount = 0;
+    private void Update()
+    {
+        UpdateScore();
+    }
+    void UpdateScore(){
 
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString();
+        }
+    }
     void Awake()
     {
+        UpdateScore();
         if (instance == null)
         {
             instance = this;
@@ -32,6 +45,7 @@ public class EnemyManager : MonoBehaviour
 
     public void UnregisterEnemy()
     {
+        score += 100;
         enemyCount--;
         Debug.Log("Enemy unregistered. Current enemy count: " + enemyCount);
 
@@ -39,6 +53,7 @@ public class EnemyManager : MonoBehaviour
         {
             StartCoroutine(RestartSceneWithDelay());
         }
+
     }
 
     private IEnumerator RestartSceneWithDelay()
@@ -57,7 +72,8 @@ public class EnemyManager : MonoBehaviour
     }
 
     private void RestartScene()
-    {
+    {   
+        score = 0;
         Debug.Log("Перезапуск сцены...");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
