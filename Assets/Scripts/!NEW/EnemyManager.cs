@@ -12,6 +12,9 @@ public class EnemyManager : MonoBehaviour
     public float restartDelay = 3f; // Задержка перед перезапуском сцены
 
     public static int enemyCount = 0;
+    private void Start() {
+        score = 0;   
+    }
     private void Update()
     {
         UpdateScore();
@@ -53,7 +56,6 @@ public class EnemyManager : MonoBehaviour
         {
             StartCoroutine(RestartSceneWithDelay());
         }
-
     }
 
     private IEnumerator RestartSceneWithDelay()
@@ -67,7 +69,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText.text = "Restart...";
+            restartingText.text = Values.restartWin;
         }
     }
 

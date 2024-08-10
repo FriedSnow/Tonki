@@ -59,4 +59,10 @@ PVE/T-90A - *fix* - rebalanced angular acceleration\
 /- *fix* - ~~60Hz~~ **165Hz Physics** 
 
 ### 0.3.3
-PVE/ - *fix* - fix acceleration bug 
+PVE/ - *fix* - fix acceleration bug
+
+### 0.3.4
+PVE/T-90A - *fix* - edited CoM\
+PVE/T-90A - *fix* - rebalanced acceleration(6) каждую пятницу одно и то же\
+PVE/T-90A - *fix* - rebalanced friction\
+PVE/Ammobox - *add* - VFX + SFX

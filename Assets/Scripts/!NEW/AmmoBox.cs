@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class AmmoBox : MonoBehaviour
@@ -8,6 +9,7 @@ public class AmmoBox : MonoBehaviour
     public float rotationSpeed = 45f;
     public float minY = -1f;
     public float maxY = 1f;
+    public GameObject claimPrefab;
     private bool isMovingDown = true;
 
     void Update()
@@ -32,6 +34,12 @@ public class AmmoBox : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // PlayerTankController.health += 50;
+            if (claimPrefab != null)
+            {
+                GameObject claim = Instantiate(claimPrefab, transform.position, gameObject.transform.rotation);
+                Destroy(claim, 3f);
+            }
             Destroy(gameObject);
             return;
         }

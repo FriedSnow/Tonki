@@ -45,7 +45,6 @@ public class APRound : MonoBehaviour
     {
         if (kostylb.velocity.magnitude > 10)
         {
-
             SupplyMethods.DealDamage(collision, damage);
             if (!isHit)
             {
@@ -58,7 +57,7 @@ public class APRound : MonoBehaviour
             }
             if (collision.collider.CompareTag("Player"))
             {
-                Destroy(gameObject, .1f);
+                Destroy(gameObject);
             }
             else 
             {
@@ -68,7 +67,7 @@ public class APRound : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Physics.IgnoreCollision(other, GetComponent<Collider>());
+        Physics.IgnoreCollision(other, GetComponent<Collider>());
         GetComponent<Renderer>().enabled = false;
         Renderer[] childRenderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer childRenderer in childRenderers)
