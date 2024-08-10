@@ -44,7 +44,7 @@ public class PlayerTankController : MonoBehaviour
     public Transform turret;                    //обьект башни
     public int ammo = 20;
     public int mgAmmo = 2000;
-    public int health = 200;
+    public static int health = 200;
     public int maxHealth = 200;
     private bool canBeDestroyed = true;
     private bool isDestroyed = false;
@@ -69,6 +69,7 @@ public class PlayerTankController : MonoBehaviour
             HandleShooting();
             HandleProjectileSwitching();
             UpdateAmmoText();
+            UpdateHealthBarColor();
         }
         if (GroundCheck.Check())
             speedMultiplier = normal;
@@ -86,13 +87,16 @@ public class PlayerTankController : MonoBehaviour
         float currentSpeed = tankRigidbody.velocity.magnitude;
 
         //вперед - назад
-        if (moveInput > 0 && currentSpeed < maxSpeed)
+        if (tankTransform.rotation.x <= 10f && tankTransform.rotation.x >= -10f)
         {
-            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
-        }
-        else if (moveInput < 0 && currentSpeed < maxSpeed)
-        {
-            tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
+            if (moveInput > 0 && currentSpeed < maxSpeed)
+            {
+                tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier, ForceMode.Force);
+            }
+            else if (moveInput < 0 && currentSpeed < maxSpeed)
+            {
+                tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier * .25f, ForceMode.Force);
+            }
         }
 
 
@@ -322,7 +326,7 @@ public class PlayerTankController : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText.text = "Restart...";
+            restartingText.text = Values.restartLose;
         }
     }
 
@@ -362,5 +366,6 @@ public class PlayerTankController : MonoBehaviour
             }
 
         }
+
     }
 }
