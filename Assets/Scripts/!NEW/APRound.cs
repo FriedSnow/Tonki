@@ -46,20 +46,20 @@ public class APRound : MonoBehaviour
         if (kostylb.velocity.magnitude > 10)
         {
             SupplyMethods.DealDamage(collision, damage);
-            if (!isHit)
-            {
-                if (explosionParticlesPrefab != null)
-                {
-                    GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
-                    Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
-                }
-                isHit = true;
-            }
             if (collision.collider.CompareTag("Player"))
             {
+                if (!isHit)
+                {
+                    if (explosionParticlesPrefab != null)
+                    {
+                        GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
+                        Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
+                    }
+                    isHit = true;
+                }
                 Destroy(gameObject);
             }
-            else 
+            else
             {
                 Destroy(gameObject, 1f);
             }

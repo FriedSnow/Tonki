@@ -9,7 +9,7 @@ public class GroundCheck : MonoBehaviour
     // Маска слоёв, с которыми нужно проверять соприкосновение
     public LayerMask layerMask;
     // Время задержки перед изменением isOnGround на false
-    private float delayTime = 0.01f;
+    private float delayTime = 0.00f;
 
     private Coroutine groundCheckCoroutine;
 

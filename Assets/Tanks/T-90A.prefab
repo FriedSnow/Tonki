@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.287, z: -0.505}
-  m_LocalScale: {x: 1, y: 0.76125, z: 0.24468423}
+  m_LocalScale: {x: 1, y: 0.76125, z: 0.1039908}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370729971777949253}
@@ -505,8 +505,8 @@ Transform:
   m_GameObject: {fileID: 2184964489686113261}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.294, z: 0.518}
-  m_LocalScale: {x: 1, y: 0.76125, z: 0.24468423}
+  m_LocalPosition: {x: 0, y: 0.294, z: 0.487}
+  m_LocalScale: {x: 1, y: 0.5230092, z: 0.17127897}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5370729971777949253}
@@ -1224,7 +1224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3828f50f70ce61d4da4c3de3eea782d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  APSpeed: 200
+  APSpeed: 400
   HEATSpeed: 150
   HESpeed: 100
   fireRate: 1
@@ -1238,7 +1238,7 @@ MonoBehaviour:
   acceleration: 375000
   rotateAcceleration: 125000
   projectileSpeed: 200
-  recoilForce: 10
+  recoilForce: 3500
   rotateSpeed: 125
   turretRotateSpeed: 4
   burningParticlesPrefab: {fileID: 5275275571862887429, guid: 33cbc0366b125fd40ae416955b38aa4a, type: 3}
@@ -1249,7 +1249,9 @@ MonoBehaviour:
   - {fileID: 3098992300101863374, guid: 38f6a6d5144295a44b0fcebc2931006b, type: 3}
   - {fileID: 3098992300101863374, guid: 1aceb95f6b9dbb246ad1534f1a95016a, type: 3}
   shootParticlesPrefab: {fileID: 4656518453552565289, guid: aa79eb311e1ed8444bec0d8ab844b0f2, type: 3}
+  lightParticlesPrefab: {fileID: 242316140235994681, guid: 22b2d4ba9e03c154d9bd3f8a80f82a40, type: 3}
   shootParticlesMGPrefab: {fileID: 4656518453552565289, guid: 2d6e047331c5b71458ecef01f732208a, type: 3}
+  lightMGParticlesPrefab: {fileID: 242316140235994681, guid: 45867ea8baf8dc34bb2e58cf310f3ceb, type: 3}
   tank: {fileID: 5205519241090130013}
   grayMaterial: {fileID: 2100000, guid: 9e78a2491286a26418665f7a5fd4a805, type: 2}
   tankRigidbody: {fileID: 6783000954341753129}
@@ -1265,7 +1267,6 @@ MonoBehaviour:
   turret: {fileID: 763741315412298266}
   ammo: 20
   mgAmmo: 1000
-  health: 200
   maxHealth: 200
 --- !u!1 &5256250423325802776
 GameObject:
@@ -2671,7 +2672,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3031,7 +3032,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
