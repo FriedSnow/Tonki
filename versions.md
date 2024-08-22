@@ -66,3 +66,11 @@ PVE/T-90A - *fix* - edited CoM\
 PVE/T-90A - *fix* - rebalanced acceleration(6) каждую пятницу одно и то же\
 PVE/T-90A - *fix* - rebalanced friction\
 PVE/Ammobox - *add* - VFX + SFX
+
+### 0.3.5
+PVE/T-90A - *fix* - rebalanced acceleration(7) каждую пятницу одно и то же3\
+PVE/T-90A/AP - *fix* - x2 speed\
+PVE/T-90A/AP - *fix* - UI improvements\
+PVE/Ammobox - *fix* - edit collider\
+PVE/T-90A - *add* - debug button\
+PVE/T-90A - *fix* - rebalanced recoil

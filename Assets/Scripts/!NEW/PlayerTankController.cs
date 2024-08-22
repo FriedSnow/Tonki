@@ -20,7 +20,7 @@ public class PlayerTankController : MonoBehaviour
     public float acceleration = 5f;             // Ускорение танка
     public float rotateAcceleration = 10f;      // Ускорение поворота танка
     public float projectileSpeed = 200f;        //скорость снаряда по умолчанию
-    public float recoilForce = 100f;            //отдача после выстрела главного орудия
+    public float recoilForce = 2000f;            //отдача после выстрела главного орудия
     public float rotateSpeed = 100f;            //скорость поворота корпуса
     public float turretRotateSpeed = 5f;        //скорость поворота башни
     public GameObject burningParticlesPrefab;   //частицы горения танка после уничтожения
@@ -28,7 +28,9 @@ public class PlayerTankController : MonoBehaviour
     public GameObject mgProjectilePrefab;       //снаряд для зенитного пулемета
     public GameObject[] projectilePrefabs;      //массив типов снарядов танка
     public GameObject shootParticlesPrefab;     //частицы выстрела
+    public GameObject lightParticlesPrefab;     //частицы выстрела
     public GameObject shootParticlesMGPrefab;   //частицы выстрела
+    public GameObject lightMGParticlesPrefab;   //частицы выстрела
     public GameObject tank;                     //обьект танка
     public Material grayMaterial;               //материал уничтоженного танка
     public Rigidbody tankRigidbody;             //еще один обьект танка
@@ -56,6 +58,7 @@ public class PlayerTankController : MonoBehaviour
     private float speedMultiplier = 1f;
     void Start()
     {
+        projectileSpeed = APSpeed;
         health = maxHealth;
         UpdateHealthBarColor();
     }
@@ -70,8 +73,10 @@ public class PlayerTankController : MonoBehaviour
             HandleProjectileSwitching();
             UpdateAmmoText();
             UpdateHealthBarColor();
+            kekW();
         }
-        if (GroundCheck.Check())
+
+        if (GroundCheck.Check() && !IsAngleExceeded(tank, 30f))
             speedMultiplier = normal;
         else
             speedMultiplier = slow;
@@ -128,8 +133,8 @@ public class PlayerTankController : MonoBehaviour
         // Выводим угол скольжения в консоль
         Vector3 velocityDirection = tankRigidbody.velocity.normalized;
         float angle = Vector3.Angle(transform.forward, velocityDirection);
-        if (currentSpeed >= 1f)
-            Debug.Log("Угол скольжения: " + Math.Round(angle, 2) + " Скорость: " + Math.Round(currentSpeed, 2));
+        // if (currentSpeed >= 1f)
+        //     Debug.Log("Угол скольжения: " + Math.Round(angle, 2) + " Скорость: " + Math.Round(currentSpeed, 2));
     }
     Vector3 GetMouseWorldPosition()
     {
@@ -212,17 +217,20 @@ public class PlayerTankController : MonoBehaviour
                 rb.velocity = firePoint.forward * projectileSpeed;
             }
             Destroy(projectile, 5f);
-            if (shootParticlesPrefab != null)
+            if (shootParticlesPrefab && lightParticlesPrefab != null)
             {
                 GameObject shootParticles = Instantiate(shootParticlesPrefab, firePoint.position, firePoint.rotation);
-                Destroy(shootParticles, 3f);
+                GameObject light = Instantiate(lightParticlesPrefab, firePoint.position, firePoint.rotation);
+                Destroy(shootParticles, .2f);
+                Destroy(light, .075f);
             }
             if (tankRigidbody != null)
             {
-                tankRigidbody.AddForce(-recoilPoint.forward * recoilForce * 10f, ForceMode.Impulse);
+                // tankRigidbody.AddForce(-recoilPoint.forward * recoilForce * 10f, ForceMode.Impulse);
             }
+            tankRigidbody.AddTorque(-turret.transform.right * recoilForce, ForceMode.Impulse);
 
-            transform.RotateAround(recoilPoint.position, -recoilPoint.right, 5f);
+            // transform.RotateAround(recoilPoint.position, -recoilPoint.right, 5f);
         }
     }
 
@@ -230,10 +238,12 @@ public class PlayerTankController : MonoBehaviour
     {
         GameObject mgProjectile = Instantiate(mgProjectilePrefab, machineGunFirePoint.position, machineGunFirePoint.rotation);
         Rigidbody rb = mgProjectile.GetComponent<Rigidbody>();
-        if (shootParticlesMGPrefab != null)
+        if (shootParticlesMGPrefab && lightMGParticlesPrefab != null)
         {
             GameObject shootParticlesMG = Instantiate(shootParticlesMGPrefab, machineGunFirePoint.position, machineGunFirePoint.rotation);
+            GameObject MGlight = Instantiate(lightMGParticlesPrefab, machineGunFirePoint.position, machineGunFirePoint.rotation);
             Destroy(shootParticlesMG, 3f);
+            Destroy(MGlight, .075f);
         }
         if (rb != null)
         {
@@ -326,7 +336,7 @@ public class PlayerTankController : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText.text = Values.restartLose;
+            restartingText.text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
         }
     }
 
@@ -367,5 +377,27 @@ public class PlayerTankController : MonoBehaviour
 
         }
 
+    }
+    public bool IsAngleExceeded(GameObject obj, float maxAngle)
+    {
+        // Получаем угол поворота объекта
+        float angle = obj.transform.eulerAngles.x;
+
+        // Нормализуем угол в диапазон от -180 до 180 градусов
+        if (angle > 180f)
+        {
+            angle -= 360f;
+        }
+
+        Debug.Log($"{angle} {Mathf.Abs(angle) > maxAngle}");
+        // Проверяем, превышает ли угол заданное значение
+        return Mathf.Abs(angle) > maxAngle;
+    }
+    void kekW()
+    {
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            ammo++;
+        }
     }
 }
