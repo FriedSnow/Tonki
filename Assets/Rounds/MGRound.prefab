@@ -33,8 +33,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.289, z: 3.961}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3649344721600977147}
   m_Father: {fileID: 0}
@@ -118,7 +118,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3652514374024673367}
   serializedVersion: 4
-  m_Mass: 0.01
+  m_Mass: 0.001
   m_Drag: 0
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -132,7 +132,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -174,6 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c421eccc5279f48a4b9208c747e1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionParticlesPrefab: {fileID: 4656518453552565289, guid: c8445c4747b784b4e81a47062f03e8e2, type: 3}
   damage: 2
 --- !u!1001 &2305846689471303995
 PrefabInstance:
@@ -185,15 +186,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1343498654900259264, guid: c2c813d37fc419d43abf260f152a8fbd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.05
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 1343498654900259264, guid: c2c813d37fc419d43abf260f152a8fbd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.05
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 1343498654900259264, guid: c2c813d37fc419d43abf260f152a8fbd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.05
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 1343498654900259264, guid: c2c813d37fc419d43abf260f152a8fbd, type: 3}
       propertyPath: m_LocalPosition.x

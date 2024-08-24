@@ -32,6 +32,98 @@ Transform:
   - {fileID: 3394739880509095179}
   m_Father: {fileID: 1760247855014472885}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &658812870239519658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4285764123691529903}
+  - component: {fileID: 6530387250413361207}
+  - component: {fileID: 4111515632968358511}
+  m_Layer: 10
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4285764123691529903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658812870239519658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
+  m_LocalPosition: {x: -0.171, y: 3.15, z: -0.332}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 763741315412298266}
+  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+--- !u!20 &6530387250413361207
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658812870239519658}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &4111515632968358511
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658812870239519658}
+  m_Enabled: 1
 --- !u!1 &778692556454296631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1320,7 @@ MonoBehaviour:
   HEATSpeed: 150
   HESpeed: 100
   fireRate: 1
-  mgFireRate: 0.1
+  mgFireRate: 0.08
   mgProjectileSpeed: 125
   mgRotateSpeed: 10
   maxSpeed: 15
@@ -1238,7 +1330,7 @@ MonoBehaviour:
   acceleration: 375000
   rotateAcceleration: 125000
   projectileSpeed: 200
-  recoilForce: 3500
+  recoilForce: 2500
   rotateSpeed: 125
   turretRotateSpeed: 4
   burningParticlesPrefab: {fileID: 5275275571862887429, guid: 33cbc0366b125fd40ae416955b38aa4a, type: 3}
@@ -1268,6 +1360,10 @@ MonoBehaviour:
   ammo: 20
   mgAmmo: 1000
   maxHealth: 200
+  isFPS: 0
+  cameras:
+  - {fileID: 0}
+  - {fileID: 6530387250413361207}
 --- !u!1 &5256250423325802776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1966,7 @@ Transform:
   - {fileID: 3038284868110445537}
   - {fileID: 1694673604745351647}
   - {fileID: 7670304181924357902}
+  - {fileID: 4285764123691529903}
   m_Father: {fileID: 6438037687029573197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4443718916761441398

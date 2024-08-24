@@ -1,4 +1,5 @@
 using System;
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,10 +35,10 @@ public class PlayerTankController : MonoBehaviour
     public GameObject tank;                     //обьект танка
     public Material grayMaterial;               //материал уничтоженного танка
     public Rigidbody tankRigidbody;             //еще один обьект танка
-    public Slider healthBar;                    //ссылка на UI элемент Slider
-    public Text restartingText;                 //ссылка на UI текста выводимого при рестарте
-    public Text ammoText;                       //ссылка на UI текста 
-    public Text mgAmmoText;                     //ссылка на UI текста 
+    public Slider[] healthBar;                    //ссылка на UI элемент Slider
+    public Text[] restartingText;                 //ссылка на UI текста выводимого при рестарте
+    public Text[] ammoText;                       //ссылка на UI текста 
+    public Text[] mgAmmoText;                     //ссылка на UI текста 
     public Transform firePoint;                 //точка выстрела
     public Transform recoilPoint;               //точка отдачи
     public Transform machineGun;                //объект зенитного пулемета
@@ -48,13 +49,21 @@ public class PlayerTankController : MonoBehaviour
     public int mgAmmo = 2000;
     public static int health = 200;
     public int maxHealth = 200;
+    public bool isFPS = false;
+    public Camera[] cameras; // Массив всех камер в сцене
+    public RawImage turretUI;
+
+    // ---------- ---------- ---------- ---------- ---------- ---------- ----------
+
+    private int currentCameraIndex = 0; // Индекс текущей камеры
     private bool canBeDestroyed = true;
     private bool isDestroyed = false;
     private float nextFireTime = 0f;            //таймер основного орудия
     private float nextMGFireTime = 0f;          //таймер зенитного пулемета
     private int currentProjectileIndex = 0;     //индекс выбранного снаряда в массиве типов
     private Gradient gradient;                  //градиент для смены цветов
-    private Image fillImage;                    //ссылка на Image компонента Fill
+    private Image fillImage1;                    //ссылка на Image компонента Fill
+    private Image fillImage2;                    //ссылка на Image компонента Fill
     private float speedMultiplier = 1f;
     void Start()
     {
@@ -66,14 +75,27 @@ public class PlayerTankController : MonoBehaviour
     {
         if (!isDestroyed)
         {
+            SwitchCameraCheck();
             MoveTank();
-            RotateTurret();
-            RotateMachineGun();
             HandleShooting();
             HandleProjectileSwitching();
             UpdateAmmoText();
             UpdateHealthBarColor();
+            RotateUI();
             kekW();
+            if (!isFPS)
+            {
+                RotateTurret();
+                RotateMachineGun();
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                FPSTurretRotation();
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
         if (GroundCheck.Check() && !IsAngleExceeded(tank, 30f))
@@ -103,7 +125,6 @@ public class PlayerTankController : MonoBehaviour
                 tankRigidbody.AddForce(transform.forward * acceleration * moveInput * speedMultiplier * .25f, ForceMode.Force);
             }
         }
-
 
         // ограничение максимальной скорости
         if (currentSpeed > maxSpeed)
@@ -157,6 +178,15 @@ public class PlayerTankController : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(tankTransform.TransformDirection(direction), tankTransform.up);
         turret.rotation = Quaternion.Lerp(turret.rotation, targetRotation, Time.deltaTime * turretRotateSpeed);
+    }
+
+    void FPSTurretRotation()
+    {
+        float mouseX = Input.GetAxis("Mouse X");
+
+        // Поворачиваем башню по горизонтали
+        turret.Rotate(Vector3.up * mouseX * turretRotateSpeed * 10 * Time.deltaTime);
+        machineGun.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     void RotateMachineGun()
@@ -249,7 +279,7 @@ public class PlayerTankController : MonoBehaviour
         {
             rb.velocity = machineGunFirePoint.forward * mgProjectileSpeed;
         }
-        Destroy(mgProjectile, 3f);
+        Destroy(mgProjectile, 5f);
     }
 
     public void TakeDamage(int damage)
@@ -257,7 +287,8 @@ public class PlayerTankController : MonoBehaviour
         health -= damage;
         if (healthBar != null)
         {
-            healthBar.value = health;
+            healthBar[0].value = health;
+            healthBar[1].value = health;
             UpdateHealthBarColor();
         }
         if (health <= 0)
@@ -267,13 +298,16 @@ public class PlayerTankController : MonoBehaviour
     }
     void UpdateHealthBarColor()
     {
-        if (healthBar != null)
+        //if (healthBar != null)
         {
-            healthBar.maxValue = maxHealth;
-            healthBar.value = health;
+            healthBar[0].maxValue = maxHealth;
+            healthBar[0].value = health;
+            healthBar[1].maxValue = maxHealth;
+            healthBar[1].value = health;
 
             // Получаем ссылку на Image компонента Fill
-            fillImage = healthBar.fillRect.GetComponent<Image>();
+            fillImage1 = healthBar[0].fillRect.GetComponent<Image>();
+            fillImage2 = healthBar[1].fillRect.GetComponent<Image>();
 
             // Настраиваем градиент
             gradient = new Gradient();
@@ -290,16 +324,19 @@ public class PlayerTankController : MonoBehaviour
             );
 
         }
-        if (fillImage != null && gradient != null)
+        if (fillImage1 != null && gradient != null)
         {
             float normalizedHealth = (float)health / maxHealth;
-            fillImage.color = gradient.Evaluate(normalizedHealth);
+            fillImage1.color = gradient.Evaluate(normalizedHealth);
+            fillImage2.color = gradient.Evaluate(normalizedHealth);
         }
     }
     void UpdateAmmoText()
     {
-        ammoText.text = ammo.ToString();
-        mgAmmoText.text = mgAmmo.ToString();
+        ammoText[0].text = ammo.ToString();
+        mgAmmoText[0].text = mgAmmo.ToString();
+        ammoText[1].text = ammo.ToString();
+        mgAmmoText[1].text = mgAmmo.ToString();
     }
 
     void Die()
@@ -336,7 +373,8 @@ public class PlayerTankController : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText.text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
+            restartingText[0].text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
+            restartingText[1].text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
         }
     }
 
@@ -362,14 +400,14 @@ public class PlayerTankController : MonoBehaviour
             // Проверяем, что тег объекта-триггера совпадает с одним из тегов, которые мы хотим отслеживать
             if (other.CompareTag("Ammo"))
             {
-                ammo++;
+                ammo += 2;
                 mgAmmo += 100;
                 EnemyManager.score += 25;
                 return; // Выходим из метода, так как мы уже обработали столкновение
             }
             else if (other.CompareTag("HP") && health < maxHealth)
             {
-                health += 50;
+                health += 100;
                 EnemyManager.score += 25;
                 UpdateHealthBarColor();
                 return; // Выходим из метода, так как мы уже обработали столкновение
@@ -393,11 +431,48 @@ public class PlayerTankController : MonoBehaviour
         // Проверяем, превышает ли угол заданное значение
         return Mathf.Abs(angle) > maxAngle;
     }
+
+    void SwitchCameraCheck()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            // Отключаем предыдущую камеру
+            cameras[currentCameraIndex].gameObject.SetActive(false);
+
+            // Увеличиваем индекс текущей камеры
+            currentCameraIndex++;
+
+            // Если индекс превышает количество камер, сбрасываем его до 0
+            if (currentCameraIndex >= cameras.Length)
+            {
+                currentCameraIndex = 0;
+            }
+            // Включаем новую текущую камеру
+            cameras[currentCameraIndex].gameObject.SetActive(true);
+            isFPS = !isFPS;
+        }
+    }
+
+    void RotateUI()
+    {
+        // Получаем текущий угол поворота башни по оси Y
+        float turretRotation = turret.localEulerAngles.y;
+        // Применяем этот угол к RawImage
+        turretUI.rectTransform.rotation = Quaternion.Euler(0, 0, -turretRotation);
+    }
+
+
     void kekW()
     {
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             ammo++;
+            mgAmmo += 100;
         }
+    }
+    private void OnDestroy()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }
