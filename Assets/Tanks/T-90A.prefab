@@ -1347,23 +1347,28 @@ MonoBehaviour:
   tank: {fileID: 5205519241090130013}
   grayMaterial: {fileID: 2100000, guid: 9e78a2491286a26418665f7a5fd4a805, type: 2}
   tankRigidbody: {fileID: 6783000954341753129}
-  healthBar: {fileID: 0}
-  restartingText: {fileID: 0}
-  ammoText: {fileID: 0}
-  mgAmmoText: {fileID: 0}
+  healthBar:
+  - {fileID: 0}
+  restartingText:
+  - {fileID: 0}
+  ammoText:
+  - {fileID: 0}
+  mgAmmoText:
+  - {fileID: 0}
   firePoint: {fileID: 4491870962625262055}
   recoilPoint: {fileID: 95226183102920748}
   machineGun: {fileID: 1760247855014472885}
   machineGunFirePoint: {fileID: 8807549881329990999}
   tankTransform: {fileID: 6438037687029573197}
   turret: {fileID: 763741315412298266}
-  ammo: 20
+  ammo: 30
   mgAmmo: 1000
   maxHealth: 200
   isFPS: 0
   cameras:
   - {fileID: 0}
   - {fileID: 6530387250413361207}
+  turretUI: {fileID: 0}
 --- !u!1 &5256250423325802776
 GameObject:
   m_ObjectHideFlags: 0

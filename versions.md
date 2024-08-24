@@ -75,7 +75,13 @@ PVE/Ammobox - *fix* - edit collider\
 PVE/T-90A - *add* - debug button\
 PVE/T-90A - *fix* - rebalanced recoil
 
-## 0.4.0
+### 0.4.0
 PVE - *add* - first person view\
 / - *fix* - UI/UX changes\
 PVE/T-90A/AP - *fix* - +speed
+
+### 0.4.1 
+PVE/T-90A - *add* - zoom\
+PVE/T-90A - *fix* - recoil 2500 > 1500\
+PVE/T-90A - *fix* - ammo 20 > 30\
+PVE/T-90A - *add* - reload indicator
