@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
-    public Text restartingText; // Ссылка на текстовый объект UI
-    public Text scoreText;                      //ссылка на UI текста 
+    public Text[] restartingText; // Ссылка на текстовый объект UI
+    public Text[] scoreText;                      //ссылка на UI текста 
     public static int score = 0;                      //ссылка на UI текста 
     public float restartDelay = 3f; // Задержка перед перезапуском сцены
     public bool needsRestart = true;
@@ -26,7 +26,8 @@ public class EnemyManager : MonoBehaviour
 
         if (scoreText != null)
         {
-            scoreText.text = score.ToString();
+            scoreText[0].text = score.ToString();
+            scoreText[1].text = score.ToString();
         }
     }
     void Awake()
@@ -72,7 +73,8 @@ public class EnemyManager : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText.text = Values.restartWin + " Score: " + score.ToString();
+            restartingText[0].text = Values.restartWin + " Score: " + score.ToString();
+            restartingText[1].text = Values.restartWin + " Score: " + score.ToString();
         }
     }
 

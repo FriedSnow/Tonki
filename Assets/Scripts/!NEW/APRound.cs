@@ -46,7 +46,7 @@ public class APRound : MonoBehaviour
         if (kostylb.velocity.magnitude > 10)
         {
             SupplyMethods.DealDamage(collision, damage);
-            if (collision.collider.CompareTag("Player"))
+            if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Enemy"))
             {
                 if (!isHit)
                 {

@@ -79,6 +79,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.RawImage
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
   serializedClasses:
@@ -199,6 +200,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 1664}
     - Class: 114
       Script: {instanceID: 1972}
+    - Class: 114
+      Script: {instanceID: 2402}
     - Class: 114
       Script: {instanceID: 2486}
     - Class: 114
@@ -1205,7 +1208,7 @@ ScriptsOnlyBuild:
     className: UnityOnMouseExitMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 0ca809e3a4b2760bf09b29d7e037f95d
+      Hash: 55e2555a6a68530c3e28e4718ec7c65c
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerTankController
@@ -1871,7 +1874,7 @@ ScriptsOnlyBuild:
     className: Vignette
   - hash:
       serializedVersion: 2
-      Hash: 0ee530590bac886842a8a76a18a49ab2
+      Hash: adbf31a76f1e6f37dcd69a5e54f50f76
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: MGRound
@@ -2261,7 +2264,7 @@ ScriptsOnlyBuild:
     className: GameManager
   - hash:
       serializedVersion: 2
-      Hash: 3c2ffc2446285cfd3d7b0b2c6ad1a830
+      Hash: e43fc64372b877b8001023200896455d
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: EnemyManager
@@ -2379,6 +2382,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 6ce972715057de566e2130da52410990
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: FPSTank
+  - hash:
+      serializedVersion: 2
+      Hash: bdf1b454c7b095f8ff54f4e85835a945
+    assemblyName: Assembly-CSharp
+    namespaceName: Ouroboros
+    className: Rotator
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
