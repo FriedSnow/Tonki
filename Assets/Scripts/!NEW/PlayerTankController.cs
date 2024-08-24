@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,9 +22,10 @@ public class PlayerTankController : MonoBehaviour
     public float acceleration = 5f;             // Ускорение танка
     public float rotateAcceleration = 10f;      // Ускорение поворота танка
     public float projectileSpeed = 200f;        //скорость снаряда по умолчанию
-    public float recoilForce = 2000f;            //отдача после выстрела главного орудия
+    public float recoilForce = 2000f;           //отдача после выстрела главного орудия
     public float rotateSpeed = 100f;            //скорость поворота корпуса
     public float turretRotateSpeed = 5f;        //скорость поворота башни
+    public float fpsSpeed = 10f;                //скорость поворота башни в прицеле
     public GameObject burningParticlesPrefab;   //частицы горения танка после уничтожения
     public GameObject explosionParticlesPrefab; //частицы взрыва танка после уничтожения
     public GameObject mgProjectilePrefab;       //снаряд для зенитного пулемета
@@ -35,10 +37,10 @@ public class PlayerTankController : MonoBehaviour
     public GameObject tank;                     //обьект танка
     public Material grayMaterial;               //материал уничтоженного танка
     public Rigidbody tankRigidbody;             //еще один обьект танка
-    public Slider[] healthBar;                    //ссылка на UI элемент Slider
-    public Text[] restartingText;                 //ссылка на UI текста выводимого при рестарте
-    public Text[] ammoText;                       //ссылка на UI текста 
-    public Text[] mgAmmoText;                     //ссылка на UI текста 
+    public Slider[] healthBar;                  //ссылка на UI элемент Slider
+    public Text[] restartingText;               //ссылка на UI текста выводимого при рестарте
+    public Text[] ammoText;                     //ссылка на UI текста 
+    public Text[] mgAmmoText;                   //ссылка на UI текста 
     public Transform firePoint;                 //точка выстрела
     public Transform recoilPoint;               //точка отдачи
     public Transform machineGun;                //объект зенитного пулемета
@@ -49,27 +51,31 @@ public class PlayerTankController : MonoBehaviour
     public int mgAmmo = 2000;
     public static int health = 200;
     public int maxHealth = 200;
-    public bool isFPS = false;
-    public Camera[] cameras; // Массив всех камер в сцене
+    public bool isFPV = false;
+    public Camera[] cameras;                    // Массив всех камер в сцене
     public RawImage turretUI;
+    public Image reloadImage;
 
     // ---------- ---------- ---------- ---------- ---------- ---------- ----------
 
-    private int currentCameraIndex = 0; // Индекс текущей камеры
+    private int currentCameraIndex = 0;         // Индекс текущей камеры
     private bool canBeDestroyed = true;
     private bool isDestroyed = false;
     private float nextFireTime = 0f;            //таймер основного орудия
     private float nextMGFireTime = 0f;          //таймер зенитного пулемета
     private int currentProjectileIndex = 0;     //индекс выбранного снаряда в массиве типов
     private Gradient gradient;                  //градиент для смены цветов
-    private Image fillImage1;                    //ссылка на Image компонента Fill
-    private Image fillImage2;                    //ссылка на Image компонента Fill
+    private Image fillImage1;                   //ссылка на Image компонента Fill
+    private Image fillImage2;                   //ссылка на Image компонента Fill
     private float speedMultiplier = 1f;
+    private float targetFOV;
     void Start()
     {
         projectileSpeed = APSpeed;
         health = maxHealth;
         UpdateHealthBarColor();
+        targetFOV = cameras[1].fieldOfView;
+        reloadImage.fillAmount = 0f;
     }
     private void Update()
     {
@@ -82,8 +88,9 @@ public class PlayerTankController : MonoBehaviour
             UpdateAmmoText();
             UpdateHealthBarColor();
             RotateUI();
+            CameraZoom();
             kekW();
-            if (!isFPS)
+            if (!isFPV)
             {
                 RotateTurret();
                 RotateMachineGun();
@@ -92,12 +99,12 @@ public class PlayerTankController : MonoBehaviour
             }
             else
             {
-                FPSTurretRotation();
+                FPVTurretRotation();
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
         }
-
+        // в следующих 4 строках нет ничего святого
         if (GroundCheck.Check() && !IsAngleExceeded(tank, 30f))
             speedMultiplier = normal;
         else
@@ -180,12 +187,11 @@ public class PlayerTankController : MonoBehaviour
         turret.rotation = Quaternion.Lerp(turret.rotation, targetRotation, Time.deltaTime * turretRotateSpeed);
     }
 
-    void FPSTurretRotation()
+    void FPVTurretRotation()
     {
         float mouseX = Input.GetAxis("Mouse X");
-
         // Поворачиваем башню по горизонтали
-        turret.Rotate(Vector3.up * mouseX * turretRotateSpeed * 10 * Time.deltaTime);
+        turret.Rotate(Vector3.up * mouseX * turretRotateSpeed * fpsSpeed * Time.deltaTime);
         machineGun.localEulerAngles = new Vector3(0, 0, 0);
     }
 
@@ -240,6 +246,7 @@ public class PlayerTankController : MonoBehaviour
     {
         if (currentProjectileIndex >= 0 && currentProjectileIndex < projectilePrefabs.Length)
         {
+            StartCoroutine(ReloadCoroutine());
             GameObject projectile = Instantiate(projectilePrefabs[currentProjectileIndex], firePoint.position, firePoint.rotation);
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)
@@ -393,6 +400,7 @@ public class PlayerTankController : MonoBehaviour
     {
         return isDestroyed;
     }
+
     void CheckAmmoBox(Collider other)
     {
         if (other.gameObject != gameObject)
@@ -449,7 +457,7 @@ public class PlayerTankController : MonoBehaviour
             }
             // Включаем новую текущую камеру
             cameras[currentCameraIndex].gameObject.SetActive(true);
-            isFPS = !isFPS;
+            isFPV = !isFPV;
         }
     }
 
@@ -460,8 +468,37 @@ public class PlayerTankController : MonoBehaviour
         // Применяем этот угол к RawImage
         turretUI.rectTransform.rotation = Quaternion.Euler(0, 0, -turretRotation);
     }
+    private IEnumerator ReloadCoroutine()
+    {
+        float timer = 0f;
+        reloadImage.fillAmount = 0f;
+
+        while (timer < fireRate)
+        {
+            timer += Time.deltaTime;
+            reloadImage.fillAmount = timer / fireRate;
+            yield return null;
+        }
+
+        reloadImage.fillAmount = 0f; // Скрыть или сбросить заполнение после завершения
+    }
 
 
+    void CameraZoom()
+    {
+        float scrollDelta = Input.mouseScrollDelta.y;
+        if (scrollDelta != 0)
+        {
+            targetFOV -= scrollDelta * 10;
+            targetFOV = Mathf.Clamp(targetFOV, 10, 60);
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            targetFOV = (targetFOV < 60) ? 60 : 10;
+        }
+        // Плавное изменение FOV
+        cameras[1].fieldOfView = Mathf.Lerp(cameras[1].fieldOfView, targetFOV, Time.deltaTime * 20f);
+    }
     void kekW()
     {
         if (Input.GetKeyDown(KeyCode.BackQuote))
