@@ -85,3 +85,8 @@ PVE/T-90A - *add* - zoom\
 PVE/T-90A - *fix* - recoil 2500 > 1500\
 PVE/T-90A - *fix* - ammo 20 > 30\
 PVE/T-90A - *add* - reload indicator
+
+### 0.4.2
+PVE/T-90A - *add* - new skybox\
+PVE/T-90A - *add* - IR mode\
+PVE/ - *fix* - UI improvements
