@@ -7,7 +7,7 @@ public class LightToggle : MonoBehaviour
     private Light[] allLights;
 
     // Указание на выбранный источник света
-    public Light selectedLight;
+    public Light[] selectedLight;
 
     // Флаг, показывающий текущее состояние
     private bool isOnlySelectedLightOn = false;
@@ -16,7 +16,8 @@ public class LightToggle : MonoBehaviour
     {
         // Найдем все источники света на сцене
         allLights = FindObjectsOfType<Light>();
-        selectedLight.enabled = false;
+        selectedLight[0].enabled = false;
+        selectedLight[1].enabled = false;
     }
 
     private void Update()
@@ -29,12 +30,13 @@ public class LightToggle : MonoBehaviour
         {
             foreach (Light light in allLights)
             {
-                if (light != selectedLight)
+                if (light != selectedLight[0])
                 {
                     light.enabled = true;
                 }
             }
-            selectedLight.enabled = false;
+            selectedLight[0].enabled = false;
+            selectedLight[1].enabled = false;
             RenderSettings.ambientIntensity = 1;
         }
     }
@@ -46,12 +48,13 @@ public class LightToggle : MonoBehaviour
             // Если включен только один источник света, включаем все остальные, кроме выбранного
             foreach (Light light in allLights)
             {
-                if (light != selectedLight)
+                if (light != selectedLight[0])
                 {
                     light.enabled = true;
                 }
             }
-            selectedLight.enabled = false;
+            selectedLight[0].enabled = false;
+            selectedLight[1].enabled = false;
             RenderSettings.ambientIntensity = 1;
         }
         else
@@ -61,7 +64,8 @@ public class LightToggle : MonoBehaviour
             {
                 light.enabled = false;
             }
-            selectedLight.enabled = true;
+            selectedLight[0].enabled = true;
+            selectedLight[1].enabled = true;
         }
 
         // Инвертируем состояние
