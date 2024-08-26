@@ -59,6 +59,7 @@ public class PlayerTankController : MonoBehaviour
     // ---------- ---------- ---------- ---------- ---------- ---------- ----------
 
     private int currentCameraIndex = 0;         // Индекс текущей камеры
+    public static int _currentCameraIndex;         // Индекс текущей камеры
     private bool canBeDestroyed = true;
     private bool isDestroyed = false;
     private float nextFireTime = 0f;            //таймер основного орудия
@@ -103,6 +104,7 @@ public class PlayerTankController : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
+            _currentCameraIndex = currentCameraIndex;
         }
         // в следующих 4 строках нет ничего святого
         if (GroundCheck.Check() && !IsAngleExceeded(tank, 30f))

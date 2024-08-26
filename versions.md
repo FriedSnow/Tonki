@@ -90,3 +90,7 @@ PVE/T-90A - *add* - reload indicator
 PVE/T-90A - *add* - new skybox\
 PVE/T-90A - *add* - IR mode\
 PVE/ - *fix* - UI improvements
+
+### 0.4.3 
+PVE/T-90A/MG - *add* - light\
+PVE/T-90A/IR - *fix* - BW filter\

@@ -21,7 +21,7 @@ public class LightToggle : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) && PlayerTankController._currentCameraIndex == 1)
         {
             ToggleLights();
         }
