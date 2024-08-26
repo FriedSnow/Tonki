@@ -21,9 +21,21 @@ public class LightToggle : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) && PlayerTankController._currentCameraIndex == 1)
         {
             ToggleLights();
+        }
+        if (PlayerTankController._currentCameraIndex == 0)
+        {
+            foreach (Light light in allLights)
+            {
+                if (light != selectedLight)
+                {
+                    light.enabled = true;
+                }
+            }
+            selectedLight.enabled = false;
+            RenderSettings.ambientIntensity = 1;
         }
     }
     // Метод для переключения света при нажатии кнопки
