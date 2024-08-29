@@ -101,3 +101,7 @@ PVE/T-90A/IR - *fix* - fix BW filter
 ### 0.4.5 
 PVE/T-90A/AP - *fix* - больше не бракованые\
 PVE/T-90A/IR - *fix* - +1 light source
+
+### 0.4.6 
+PVE/ - *add* - Max score\
+PVE/T-90A/AP - *fix* - .1 after hit delay
