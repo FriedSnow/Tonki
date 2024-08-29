@@ -67,14 +67,18 @@ public class EnemyManager : MonoBehaviour
         ShowRestartingMessage();
         yield return new WaitForSeconds(restartDelay);
         RestartScene();
+        if (score > PlayerTankController.GetRecord())
+        {
+            PlayerTankController.SetRecord(score);
+        }
     }
 
     private void ShowRestartingMessage()
     {
         if (restartingText != null)
         {
-            restartingText[0].text = Values.restartWin + " Score: " + score.ToString();
-            restartingText[1].text = Values.restartWin + " Score: " + score.ToString();
+            restartingText[0].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {PlayerTankController.GetRecord()}";
+            restartingText[1].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {PlayerTankController.GetRecord()}";
         }
     }
 

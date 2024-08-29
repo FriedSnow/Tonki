@@ -373,8 +373,13 @@ public class PlayerTankController : MonoBehaviour
                 GameObject explosionParticles = Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
                 Destroy(explosionParticles, 3f);
             }
-            EnemyManager.score = 0;
+            if (EnemyManager.score > GetRecord())
+            {
+                SetRecord(EnemyManager.score);
+            }
+
             canBeDestroyed = false;
+            EnemyManager.score = 0;
         }
     }
 
@@ -382,8 +387,8 @@ public class PlayerTankController : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText[0].text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
-            restartingText[1].text = Values.restartLose + " Score: " + EnemyManager.score.ToString();
+            restartingText[0].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {GetRecord()}";
+            restartingText[1].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {GetRecord()}";
         }
     }
 
@@ -501,6 +506,16 @@ public class PlayerTankController : MonoBehaviour
         // Плавное изменение FOV
         cameras[1].fieldOfView = Mathf.Lerp(cameras[1].fieldOfView, targetFOV, Time.deltaTime * 20f);
     }
+
+    public static void SetRecord(int Value)
+    {
+        PlayerPrefs.SetInt("MaxScore", Value);
+    }
+    public static int GetRecord()
+    {
+        return PlayerPrefs.GetInt("MaxScore");
+    }
+
     void kekW()
     {
         if (Input.GetKeyDown(KeyCode.BackQuote))

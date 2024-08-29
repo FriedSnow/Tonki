@@ -57,7 +57,7 @@ public class APRound : MonoBehaviour
                     }
                     isHit = true;
                 }
-                Destroy(gameObject);
+                Destroy(gameObject, .1f);
             }
             else
             {
