@@ -1241,6 +1241,7 @@ MonoBehaviour:
   recoilForce: 3500
   rotateSpeed: 125
   turretRotateSpeed: 4
+  fpsSpeed: 10
   burningParticlesPrefab: {fileID: 5275275571862887429, guid: 33cbc0366b125fd40ae416955b38aa4a, type: 3}
   explosionParticlesPrefab: {fileID: 4656518453552565289, guid: 7127e53ccce37a447a21ca4df56cc3d5, type: 3}
   mgProjectilePrefab: {fileID: 3652514374024673367, guid: 0df43bd15bdd9f740ab28da4bcfd7fdc, type: 3}
@@ -1253,12 +1254,17 @@ MonoBehaviour:
   shootParticlesMGPrefab: {fileID: 4656518453552565289, guid: 2d6e047331c5b71458ecef01f732208a, type: 3}
   lightMGParticlesPrefab: {fileID: 242316140235994681, guid: 45867ea8baf8dc34bb2e58cf310f3ceb, type: 3}
   tank: {fileID: 5205519241090130013}
+  pipePrefab: {fileID: 0}
   grayMaterial: {fileID: 2100000, guid: 9e78a2491286a26418665f7a5fd4a805, type: 2}
   tankRigidbody: {fileID: 6783000954341753129}
-  healthBar: {fileID: 0}
-  restartingText: {fileID: 0}
-  ammoText: {fileID: 0}
-  mgAmmoText: {fileID: 0}
+  healthBar:
+  - {fileID: 0}
+  restartingText:
+  - {fileID: 0}
+  ammoText:
+  - {fileID: 0}
+  mgAmmoText:
+  - {fileID: 0}
   firePoint: {fileID: 4491870962625262055}
   recoilPoint: {fileID: 95226183102920748}
   machineGun: {fileID: 1760247855014472885}
@@ -1268,6 +1274,10 @@ MonoBehaviour:
   ammo: 20
   mgAmmo: 1000
   maxHealth: 200
+  isFPV: 0
+  cameras: []
+  turretUI: {fileID: 0}
+  reloadImage: {fileID: 0}
 --- !u!1 &5256250423325802776
 GameObject:
   m_ObjectHideFlags: 0

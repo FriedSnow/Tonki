@@ -449,8 +449,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.25
   m_Range: 500
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 45
+  m_InnerSpotAngle: 4
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -1164,7 +1164,7 @@ Transform:
   m_GameObject: {fileID: 4249033958541321972}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 2.09, z: -0.39}
+  m_LocalPosition: {x: 0, y: 1.73, z: -0.4}
   m_LocalScale: {x: 4, y: 4, z: 0.63291115}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1470,6 +1470,7 @@ MonoBehaviour:
   shootParticlesMGPrefab: {fileID: 4656518453552565289, guid: 2d6e047331c5b71458ecef01f732208a, type: 3}
   lightMGParticlesPrefab: {fileID: 242316140235994681, guid: 45867ea8baf8dc34bb2e58cf310f3ceb, type: 3}
   tank: {fileID: 5205519241090130013}
+  pipePrefab: {fileID: 7745712965986563688, guid: ae2a7967fa554d047b4d83723f5c8ebc, type: 3}
   grayMaterial: {fileID: 2100000, guid: 9e78a2491286a26418665f7a5fd4a805, type: 2}
   tankRigidbody: {fileID: 6783000954341753129}
   healthBar:
@@ -1540,7 +1541,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 30
   m_SpotAngle: 40
   m_InnerSpotAngle: 4
@@ -1871,7 +1872,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 30
   m_SpotAngle: 40
   m_InnerSpotAngle: 4
@@ -2448,8 +2449,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 5000
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 45
+  m_InnerSpotAngle: 4
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
