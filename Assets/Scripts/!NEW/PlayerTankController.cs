@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Data.Common;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,6 +36,7 @@ public class PlayerTankController : MonoBehaviour
     public GameObject shootParticlesMGPrefab;   //частицы выстрела
     public GameObject lightMGParticlesPrefab;   //частицы выстрела
     public GameObject tank;                     //обьект танка
+    public GameObject pipePrefab;
     public Material grayMaterial;               //материал уничтоженного танка
     public Rigidbody tankRigidbody;             //еще один обьект танка
     public Slider[] healthBar;                  //ссылка на UI элемент Slider
@@ -296,9 +298,16 @@ public class PlayerTankController : MonoBehaviour
         health -= damage;
         if (healthBar != null)
         {
-            healthBar[0].value = health;
-            healthBar[1].value = health;
+            foreach (var bar in healthBar)
+            {
+                bar.value = health;
+            }
             UpdateHealthBarColor();
+        }
+        if (damage >= 20)
+        {
+            GameObject pipe = Instantiate(pipePrefab, transform.position, transform.rotation);
+            Destroy(pipe, 3f);
         }
         if (health <= 0)
         {
@@ -309,11 +318,11 @@ public class PlayerTankController : MonoBehaviour
     {
         //if (healthBar != null)
         {
-            healthBar[0].maxValue = maxHealth;
-            healthBar[0].value = health;
-            healthBar[1].maxValue = maxHealth;
-            healthBar[1].value = health;
-
+            foreach (var bar in healthBar)
+            {
+                bar.maxValue = maxHealth;
+                bar.value = health;
+            }
             // Получаем ссылку на Image компонента Fill
             fillImage1 = healthBar[0].fillRect.GetComponent<Image>();
             fillImage2 = healthBar[1].fillRect.GetComponent<Image>();
@@ -342,10 +351,16 @@ public class PlayerTankController : MonoBehaviour
     }
     void UpdateAmmoText()
     {
-        ammoText[0].text = ammo.ToString();
-        mgAmmoText[0].text = mgAmmo.ToString();
-        ammoText[1].text = ammo.ToString();
-        mgAmmoText[1].text = mgAmmo.ToString();
+        foreach (var text in ammoText)
+        {
+            text.text = ammo.ToString();
+        }
+        foreach (var text in mgAmmoText)
+        {
+            text.text = mgAmmo.ToString();
+        }
+
+
     }
 
     void Die()
@@ -387,8 +402,10 @@ public class PlayerTankController : MonoBehaviour
     {
         if (restartingText != null)
         {
-            restartingText[0].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {GetRecord()}";
-            restartingText[1].text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {GetRecord()}";
+            foreach (var text in restartingText)
+            {
+                text.text = $"{Values.restartLose} Score: {EnemyManager.score} Record: {GetRecord()}";
+            }
         }
     }
 
@@ -442,7 +459,7 @@ public class PlayerTankController : MonoBehaviour
             angle -= 360f;
         }
 
-        Debug.Log($"{angle} {Mathf.Abs(angle) > maxAngle}");
+        // Debug.Log($"{angle} {Mathf.Abs(angle) > maxAngle}");
         // Проверяем, превышает ли угол заданное значение
         return Mathf.Abs(angle) > maxAngle;
     }

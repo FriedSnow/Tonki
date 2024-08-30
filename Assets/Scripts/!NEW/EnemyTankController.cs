@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using System.Linq.Expressions;
 
 public class EnemyTankController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class EnemyTankController : MonoBehaviour
     public GameObject burningParticlesPrefab;
     public GameObject explosionParticlesPrefab;
     public GameObject shootParticlesPrefab;
+    public GameObject weakSpot;
     public float moveSpeed = 5f;
     public float rotateSpeed = 2f;
     public float turretRotateSpeed = 5f;
@@ -22,6 +24,7 @@ public class EnemyTankController : MonoBehaviour
     public float projectileSpeed = 20f;
     public float desiredDistance = 20f; // Желаемое расстояние от игрока
     public int health = 100;
+    public LayerMask targetLayer;
     private Vector3 targetPosition;
     private PlayerTankController playerTankController;
     public LayerMask obstacleMask; // Маска для препятствий
@@ -52,6 +55,7 @@ public class EnemyTankController : MonoBehaviour
             }
         }
     }
+
 
     void MoveTank()
     {
@@ -153,7 +157,7 @@ public class EnemyTankController : MonoBehaviour
 
     void FireProjectile()
     {
-        Debug.Log("Firing projectile.");
+        // Debug.Log("Firing projectile.");
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
@@ -171,11 +175,16 @@ public class EnemyTankController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+        if (WeakSpot.IsWeakHit()){
+            health -= damage*5;
+            Debug.Log("weak spot hit");
+        }
         if (health <= 0)
         {
             Die();
         }
     }
+    
 
     void Die()
     {
@@ -212,7 +221,7 @@ public class EnemyTankController : MonoBehaviour
                 Destroy(explosionParticles, 3f); // Уничтожение частиц через 3 секунды
             }
             Vector3 offset = new Vector3(0, 0, -5);
-            if (ammoBox != null && rnd >.2)
+            if (ammoBox != null && rnd > .2)
             {
                 Instantiate(ammoBox, transform.position + offset, Quaternion.identity);
             }
@@ -226,7 +235,7 @@ public class EnemyTankController : MonoBehaviour
 
     void RemoveTankModel()
     {
-        // Destroy(tank); // Удаляем модель танка
-        // Destroy(turret); // Удаляем модель танка
+        Destroy(tank, 5f); // Удаляем модель танка
+        Destroy(turret, 5f); // Удаляем модель танка
     }
 }

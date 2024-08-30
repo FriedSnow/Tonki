@@ -105,3 +105,10 @@ PVE/T-90A/IR - *fix* - +1 light source
 ### 0.4.6 
 PVE/ - *add* - Max score\
 PVE/T-90A/AP - *fix* - .1 after hit delay
+
+### 0.4.7
+PVE/Enemy - *fix* - destroy after delay\
+PVE/Enemy - *add* - weak spot\
+PVE/T-90A/IR - *fix* - light angle 30 > 65\
+PVE/T-90A - *add* - steel pipe\
+Main scene/ - *add* - cool tip
